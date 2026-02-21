@@ -1,0 +1,142 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #ffffff;
+    color: #111827;
+    font-family: 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .heroSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 5rem;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    background: linear-gradient(to right, #eff6ff, #ffffff, #eff6ff);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heroTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    line-height: 1.2;
+    color: #111827;
+    margin-bottom: 1.5rem;
+  }
+  
+  .heroHighlight {
+    color: #3b82f6;
+  }
+  
+  .heroSubtitle {
+    font-size: 1.125rem;
+    color: #4b5563;
+    margin-bottom: 2rem;
+  }
+  
+  .buttonPrimary {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .buttonPrimary:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+  }
+  
+  .sectionTitle {
+    font-size: 1.875rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: #1f2937;
+  }
+  
+  .featureCard {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .featureCard:hover {
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ctaSection {
+    position: relative;
+    background-color: #2563eb;
+    color: white;
+    border-radius: 1rem;
+    padding: 3rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    overflow: hidden;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ctaButton {
+    background-color: white;
+    color: #2563eb;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    transition: all 0.3s ease;
+  }
+  
+  .ctaButton:hover {
+    background-color: #f3f4f6;
+  }
+  
+  .featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .featureIcon {
+    color: #3b82f6;
+    font-size: 3rem;
+    margin: 0 auto 1rem;
+  }
+  
+  .featureTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #111827;
+  }
+  
+  .featureDescription {
+    color: #6b7280;
+  }
+  
+  .heroImageContainer {
+    width: 100%;
+    max-width: 500px;
+    filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.1));
+  }
+  
+  .ctaContent {
+    position: relative;
+    z-index: 10;
+  }
+  
+  .ctaBackground {
+    position: absolute;
+    inset: 0;
+    opacity: 0.2;
+    background-size: cover;
+    background-position: center;
+    pointer-events: none;
+  }
