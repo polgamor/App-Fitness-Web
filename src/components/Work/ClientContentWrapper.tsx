@@ -1,20 +1,20 @@
-import { Cliente } from '../../context/AuthContext';
-import RutinasContent from './RutinasContent';
-import DietasContent from './DietasContent';
+import type { Client } from '../../context/AuthContext';
+import RoutinesContent from './RoutinesContent';
+import DietsContent from './DietsContent';
 
 interface ClientContentWrapperProps {
-  client: Cliente;
-  activeSection: 'rutinas' | 'dietas' | 'chat';
+  client: Client;
+  activeSection: 'routines' | 'diets' | 'chat';
 }
 
-export default function ClientContentWrapper({ 
-  client, 
+export default function ClientContentWrapper({
+  client,
   activeSection
 }: ClientContentWrapperProps) {
   return (
     <div style={{ height: '80vh', width: '100%' }}>
-      {activeSection === 'rutinas' && <RutinasContent client={client} />}
-      {activeSection === 'dietas' && <DietasContent client={client} />}
+      {activeSection === 'routines' && <RoutinesContent client={client} />}
+      {activeSection === 'diets' && <DietsContent client={client} />}
     </div>
   );
 }

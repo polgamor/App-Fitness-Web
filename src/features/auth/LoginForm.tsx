@@ -19,7 +19,6 @@ export default function LoginForm({}: LoginFormProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Mostrar modal solo si se vino con estado correcto
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const verifiedSuccess = params.get('verified') === 'success';
@@ -28,7 +27,7 @@ export default function LoginForm({}: LoginFormProps) {
     if (verifiedSuccess && cameFromEmail) {
       setShowVerifiedModal(true);
     } else if (verifiedSuccess && !cameFromEmail) {
-      navigate('/login', { replace: true }); // evitar acceso manual
+      navigate('/login', { replace: true });
     }
   }, [location, navigate]);
 
@@ -44,22 +43,15 @@ export default function LoginForm({}: LoginFormProps) {
     input: CSSProperties;
     error: CSSProperties;
     submitButton: CSSProperties;
-    link: CSSProperties;
   } = {
-    container: {
-      width: '100%',
-    },
+    container: { width: '100%' },
     inputGroup: {
       marginBottom: '1.5rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '0.5rem'
     },
-    label: {
-      fontSize: '0.875rem',
-      color: '#3A5A40',
-      fontWeight: 500
-    },
+    label: { fontSize: '0.875rem', color: '#3A5A40', fontWeight: 500 },
     input: {
       padding: '0.75rem',
       borderRadius: '0.5rem',
@@ -78,7 +70,7 @@ export default function LoginForm({}: LoginFormProps) {
     submitButton: {
       width: '100%',
       padding: '0.9rem',
-      backgroundColor: '#D65A31',
+      backgroundColor: '#A3B18A',
       color: 'white',
       border: 'none',
       borderRadius: '0.5rem',
@@ -88,15 +80,6 @@ export default function LoginForm({}: LoginFormProps) {
       marginTop: '0.5rem',
       transition: 'background-color 0.3s ease',
       boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
-    },
-    link: {
-      color: '#3A5A40',
-      textDecoration: 'none',
-      fontSize: '0.875rem',
-      textAlign: 'center',
-      display: 'block',
-      marginTop: '1rem',
-      transition: 'color 0.3s ease'
     }
   };
 
@@ -105,12 +88,12 @@ export default function LoginForm({}: LoginFormProps) {
     setError('');
 
     if (!email || !password) {
-      setError('Email y contraseña son obligatorios');
+      setError('Email and password are required');
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setError('Por favor ingrese un email válido');
+      setError('Please enter a valid email address');
       return;
     }
 
@@ -121,7 +104,7 @@ export default function LoginForm({}: LoginFormProps) {
       const { currentUser } = auth;
 
       if (currentUser && !currentUser.emailVerified) {
-        setError('Por favor verifica tu correo electrónico antes de iniciar sesión');
+        setError('Please verify your email address before signing in');
         await signOut(auth);
         return;
       }
@@ -135,25 +118,25 @@ export default function LoginForm({}: LoginFormProps) {
     }
   };
 
-  const formatAuthError = (error: unknown): string => {
-    if (!(error instanceof Error)) return 'Error desconocido al iniciar sesión';
+  const formatAuthError = (err: unknown): string => {
+    if (!(err instanceof Error)) return 'Unknown sign-in error';
 
-    const authError = error as AuthError;
+    const authError = err as AuthError;
     switch (authError.code) {
       case 'auth/user-not-found':
-        return 'Usuario no registrado';
+        return 'No account found with this email';
       case 'auth/wrong-password':
-        return 'Contraseña incorrecta';
+        return 'Incorrect password';
       case 'auth/too-many-requests':
-        return 'Demasiados intentos fallidos. Por favor intente más tarde.';
+        return 'Too many failed attempts. Please try again later.';
       case 'auth/invalid-email':
-        return 'Email no válido';
+        return 'Invalid email address';
       case 'auth/unverified-email':
-        return 'Email no verificado';
+        return 'Email not verified';
       case 'auth/role-not-allowed':
-        return 'No tienes permisos para acceder a esta plataforma';
+        return 'You do not have permission to access this platform';
       default:
-        return 'Error al iniciar sesión. Por favor intente nuevamente.';
+        return 'Sign-in failed. Please try again.';
     }
   };
 
@@ -168,7 +151,7 @@ export default function LoginForm({}: LoginFormProps) {
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 1000,
-          backdropFilter: 'blur(6px)',
+          backdropFilter: 'blur(6px)'
         }}>
           <div style={{
             backgroundColor: '#DAD7CD',
@@ -177,7 +160,7 @@ export default function LoginForm({}: LoginFormProps) {
             width: '90%',
             maxWidth: '500px',
             boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
-            textAlign: 'center',
+            textAlign: 'center'
           }}>
             <h2 style={{
               fontSize: '1.75rem',
@@ -185,17 +168,17 @@ export default function LoginForm({}: LoginFormProps) {
               color: '#344E41',
               fontFamily: '"Bebas Neue", sans-serif',
               marginBottom: '1rem',
-              textTransform: 'uppercase',
+              textTransform: 'uppercase'
             }}>
-              ¡Correo verificado!
+              Email Verified!
             </h2>
             <p style={{
               fontSize: '1rem',
               color: '#3A5A40',
               fontFamily: '"ABeeZee", sans-serif',
-              marginBottom: '1.5rem',
+              marginBottom: '1.5rem'
             }}>
-              Tu dirección de correo ha sido verificada correctamente. Ya puedes iniciar sesión.
+              Your email address has been verified. You can now sign in.
             </p>
             <button onClick={handleCloseModal} style={{
               backgroundColor: '#3A5A40',
@@ -206,9 +189,9 @@ export default function LoginForm({}: LoginFormProps) {
               cursor: 'pointer',
               fontFamily: '"ABeeZee", sans-serif',
               fontSize: '1rem',
-              fontWeight: 500,
+              fontWeight: 500
             }}>
-              Aceptar
+              Continue
             </button>
           </div>
         </div>
@@ -216,11 +199,11 @@ export default function LoginForm({}: LoginFormProps) {
 
       <form onSubmit={handleSubmit} style={styles.container}>
         <div style={styles.inputGroup}>
-          <label htmlFor="email" style={styles.label}>Correo electrónico</label>
+          <label htmlFor="email" style={styles.label}>Email</label>
           <input
             id="email"
             type="email"
-            placeholder="Correo electrónico"
+            placeholder="Email address"
             value={email}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             required
@@ -230,11 +213,11 @@ export default function LoginForm({}: LoginFormProps) {
         </div>
 
         <div style={styles.inputGroup}>
-          <label htmlFor="password" style={styles.label}>Contraseña</label>
+          <label htmlFor="password" style={styles.label}>Password</label>
           <input
             id="password"
             type="password"
-            placeholder="Contraseña"
+            placeholder="Password"
             value={password}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             required
@@ -250,11 +233,10 @@ export default function LoginForm({}: LoginFormProps) {
           disabled={loading}
           style={{
             ...styles.submitButton,
-            backgroundColor: loading ? '#A3B18A' : '#A3B18A',
-            cursor: loading ? 'not-allowed' : 'pointer',
+            cursor: loading ? 'not-allowed' : 'pointer'
           }}
         >
-          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+          {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
     </>

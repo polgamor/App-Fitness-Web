@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
-import { useAuth, Cliente } from '../../context/AuthContext';
+import { useState, useEffect, CSSProperties } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import type { Client } from '../../context/AuthContext';
 import WorkNavbar from '../../components/Work/WorkNavbar';
 import ClientTabs from '../../components/Work/ClientTabsBar';
 import ClientDetailView from '../../components/Work/ClientDetailView';
 import ClientListPage from '../../components/Work/ClientListPage';
-import { CSSProperties } from 'react';
 
-type OpenClient = Cliente & {
+type OpenClient = Client & {
   activeMenuItem: string;
 };
 
@@ -19,23 +19,21 @@ export default function WorkPage() {
   useEffect(() => {
     const savedState = localStorage.getItem('workPageState');
     if (savedState) {
-      const { openClients, activeClientId, showClientsPanel } = JSON.parse(savedState);
-      setOpenClients(openClients || []);
-      setActiveClientId(activeClientId || null);
-      setShowClientsPanel(showClientsPanel !== false);
+      const parsed = JSON.parse(savedState);
+      setOpenClients(parsed.openClients || []);
+      setActiveClientId(parsed.activeClientId || null);
+      setShowClientsPanel(parsed.showClientsPanel !== false);
     }
   }, []);
 
   useEffect(() => {
-    const stateToSave = {
+    localStorage.setItem('workPageState', JSON.stringify({
       openClients,
       activeClientId,
       showClientsPanel
-    };
-    localStorage.setItem('workPageState', JSON.stringify(stateToSave));
+    }));
   }, [openClients, activeClientId, showClientsPanel]);
 
-  // Estilos con tipado correcto usando CSSProperties
   const styles: {
     pageContainer: CSSProperties;
     mainContainer: CSSProperties;
@@ -60,33 +58,27 @@ export default function WorkPage() {
     }
   };
 
-  const handleClientClick = (cliente: Cliente) => {
-    const existingClient = openClients.find(c => c.id === cliente.id);
-    if (existingClient) {
-      setActiveClientId(cliente.id);
+  const handleClientClick = (client: Client) => {
+    const existing = openClients.find(c => c.id === client.id);
+    if (existing) {
+      setActiveClientId(client.id);
       setShowClientsPanel(false);
       return;
     }
 
-    const newClient: OpenClient = {
-      ...cliente,
-      activeMenuItem: 'info',
-    };
-
+    const newClient: OpenClient = { ...client, activeMenuItem: 'info' };
     setOpenClients([...openClients, newClient]);
-    setActiveClientId(cliente.id);
+    setActiveClientId(client.id);
     setShowClientsPanel(false);
   };
 
   const handleCloseTab = (clientId: string) => {
-    const newOpenClients = openClients.filter(c => c.id !== clientId);
-    setOpenClients(newOpenClients);
+    const remaining = openClients.filter(c => c.id !== clientId);
+    setOpenClients(remaining);
 
     if (activeClientId === clientId) {
-      setActiveClientId(newOpenClients.length > 0 ? newOpenClients[0].id : null);
-      if (newOpenClients.length === 0) {
-        setShowClientsPanel(true);
-      }
+      setActiveClientId(remaining.length > 0 ? remaining[0].id : null);
+      if (remaining.length === 0) setShowClientsPanel(true);
     }
   };
 
@@ -100,19 +92,9 @@ export default function WorkPage() {
     setActiveClientId(null);
   };
 
-  const handleMenuItemClick = (clientId: string, menuItemId: string) => {
-    setOpenClients(openClients.map(client =>
-      client.id === clientId ? { ...client, activeMenuItem: menuItemId } : client
-    ));
-  };
-
-  const handleAddClient = () => {
-    // Lógica para agregar nuevo cliente
-    console.log("Agregar nuevo cliente");
-    // Aquí podrías abrir un modal o redirigir a un formulario
-  };
-
   const activeClient = openClients.find(c => c.id === activeClientId);
+
+  if (!user) return null;
 
   return (
     <div style={styles.pageContainer}>
@@ -129,10 +111,7 @@ export default function WorkPage() {
       <div style={styles.mainContainer}>
         <main style={styles.contentArea}>
           {showClientsPanel ? (
-            <ClientListPage 
-              onClientClick={handleClientClick} 
-              onAddClient={handleAddClient}
-            />
+            <ClientListPage onClientClick={handleClientClick} />
           ) : activeClient ? (
             <ClientDetailView client={activeClient} />
           ) : null}
