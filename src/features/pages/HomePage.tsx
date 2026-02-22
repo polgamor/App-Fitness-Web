@@ -232,43 +232,43 @@ export default function HomePage() {
         {/* --- Sección Hero --- */}
         <section style={styles.heroSection}>
           <h1 style={styles.heroTitle}>
-            TRANSFORMA TU CUERPO <span style={styles.heroHighlight}>CON APPFIT</span>
+            TRANSFORM YOUR BODY <span style={styles.heroHighlight}>WITH APPFIT</span>
           </h1>
           <p style={styles.heroSubtitle}>
-            La plataforma todo en uno para entrenadores y clientes. Crea rutinas personalizadas, 
-            sigue tu progreso y alcanza tus metas fitness de manera efectiva.
+            The all-in-one platform for trainers and clients. Create personalized routines,
+            track your progress, and achieve your fitness goals effectively.
           </p>
         </section>
 
         {/* --- Sección Features --- */}
         <section style={{ ...styles.section, ...styles.sectionLight }}>
-          <h2 style={styles.sectionTitle}>Nuestras Características</h2>
+          <h2 style={styles.sectionTitle}>Our Features</h2>
           <div style={styles.featuresGrid}>
             {[
               {
                 icon: <FiCheckCircle style={styles.featureIcon} />,
-                title: "Rutinas Personalizadas",
-                text: "Programas diseñados por expertos según tus objetivos físicos y nivel de experiencia."
+                title: "Personalized Routines",
+                text: "Expert-designed programs tailored to your fitness goals and experience level."
               },
               {
                 icon: <FiActivity style={styles.featureIcon} />,
-                title: "Seguimiento Avanzado",
-                text: "Monitoriza tu progreso con gráficos detallados y estadísticas en tiempo real."
+                title: "Advanced Tracking",
+                text: "Monitor your progress with detailed charts and real-time statistics."
               },
               {
                 icon: <FiUsers style={styles.featureIcon} />,
-                title: "Comunidad Activa",
-                text: "Conéctate con entrenadores certificados y otros miembros para compartir experiencias."
+                title: "Active Community",
+                text: "Connect with certified trainers and other members to share experiences."
               },
               {
                 icon: <FiAward style={styles.featureIcon} />,
-                title: "Retos Motivacionales",
-                text: "Participa en desafíos semanales para mantener tu motivación y disciplina."
+                title: "Motivational Challenges",
+                text: "Join weekly challenges to maintain your motivation and discipline."
               },
               {
                 icon: <FiBarChart2 style={styles.featureIcon} />,
-                title: "Análisis Nutricional",
-                text: "Registra tu alimentación y recibe recomendaciones personalizadas."
+                title: "Nutritional Analysis",
+                text: "Track your nutrition and receive personalized recommendations."
               }
             ].map((feature, index) => (
               <div 
@@ -291,13 +291,13 @@ export default function HomePage() {
 
         {/* --- Sección Estadísticas --- */}
         <section style={{ ...styles.section, ...styles.sectionDark }}>
-          <h2 style={styles.sectionTitle}>Nuestro Impacto</h2>
+          <h2 style={styles.sectionTitle}>Our Impact</h2>
           <div style={styles.statsContainer}>
             {[
-              { number: "10K+", label: "Usuarios activos" },
-              { number: "95%", label: "Satisfacción" },
-              { number: "50+", label: "Entrenadores" },
-              { number: "1M+", label: "Ejercicios realizados" }
+              { number: "10K+", label: "Active Users" },
+              { number: "95%", label: "Satisfaction" },
+              { number: "50+", label: "Trainers" },
+              { number: "1M+", label: "Exercises Completed" }
             ].map((stat, index) => (
               <div key={index} style={styles.statItem}>
                 <div style={styles.statNumber}>{stat.number}</div>
@@ -309,29 +309,29 @@ export default function HomePage() {
 
         {/* --- Sección Testimonios --- */}
         <section style={{ ...styles.section, ...styles.sectionLight }}>
-          <h2 style={styles.sectionTitle}>Historias de Éxito</h2>
+          <h2 style={styles.sectionTitle}>Success Stories</h2>
           <div style={styles.testimonialCard}>
             <p style={styles.testimonialText}>
-              "APPFIT cambió completamente mi enfoque del fitness. En solo 3 meses logré 
-              resultados que no había conseguido en años de entrenamiento convencional. 
-              Las rutinas personalizadas y el seguimiento detallado hacen toda la diferencia."
+              "APPFIT completely changed my approach to fitness. In just 3 months I achieved
+              results I hadn't managed in years of conventional training.
+              The personalized routines and detailed tracking make all the difference."
             </p>
-            <p style={styles.testimonialAuthor}>- Carlos M., Perdió 12kg</p>
+            <p style={styles.testimonialAuthor}>- Carlos M., Lost 12kg</p>
           </div>
         </section>
 
         {/* --- Sección CTA --- */}
         <section style={styles.ctaSection}>
-          <h2 style={styles.ctaTitle}>¿LISTO PARA TRANSFORMAR TU VIDA?</h2>
+          <h2 style={styles.ctaTitle}>READY TO TRANSFORM YOUR LIFE?</h2>
           <p style={styles.ctaText}>
-            Únete a miles de personas que ya están logrando sus objetivos fitness con nuestra plataforma.
-            Obtén acceso inmediato a todas las funciones con nuestra prueba gratuita de 7 días.
+            Join thousands of people already achieving their fitness goals with our platform.
+            Get immediate access to all features with our 7-day free trial.
           </p>
-          <button 
+          <button
             style={styles.ctaButton}
             onClick={() => setIsModalOpen(true)}
-            aria-label="Abrir menú de usuario">
-            Comenzar ahora
+            aria-label="Open user menu">
+            Get Started
           </button>
           <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </section>

@@ -16,7 +16,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onSuccess }: Delet
   const handleDelete = async () => {
     try {
       if (!password) {
-        setError('Por favor ingresa tu contraseña');
+        setError('Please enter your password');
         return;
       }
       
@@ -30,9 +30,9 @@ export default function DeleteAccountModal({ isOpen, onClose, onSuccess }: Delet
     } catch (err) {
       // Manejo específico para contraseña incorrecta
       if (err instanceof Error && err.message.includes('contraseña')) {
-        setError('Contraseña incorrecta. Por favor intenta nuevamente.');
+        setError('Incorrect password. Please try again.');
       } else {
-        setError(err instanceof Error ? err.message : 'Error al eliminar la cuenta');
+        setError(err instanceof Error ? err.message : 'Error deleting account');
       }
     } finally {
       setIsDeleting(false);
@@ -146,27 +146,27 @@ export default function DeleteAccountModal({ isOpen, onClose, onSuccess }: Delet
   return (
     <div style={modalStyles.overlay} onClick={onClose}>
       <div style={modalStyles.content} onClick={(e) => e.stopPropagation()}>
-        <h2 style={modalStyles.title}>Confirmar Eliminación</h2>
+        <h2 style={modalStyles.title}>Confirm Account Deletion</h2>
         {error && (
           <div style={modalStyles.errorText}>
             {error}
           </div>
         )}
         <p style={modalStyles.text}>
-          ¿Estás seguro de eliminar tu cuenta permanentemente? Esta acción no se puede deshacer.
+          Are you sure you want to permanently delete your account? This action cannot be undone.
         </p>
-        
+
         <div style={modalStyles.inputGroup}>
-          <label style={modalStyles.label}>Contraseña:</label>
+          <label style={modalStyles.label}>Password:</label>
           <input
             type="password"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
-              setError(''); 
+              setError('');
             }}
             style={modalStyles.input}
-            placeholder="Ingresa tu contraseña para confirmar"
+            placeholder="Enter your password to confirm"
           />
         </div>
 
@@ -180,9 +180,9 @@ export default function DeleteAccountModal({ isOpen, onClose, onSuccess }: Delet
               ...(isDeleting ? modalStyles.disabledButton : {})
             }}
           >
-            Cancelar
+            Cancel
           </button>
-          <button 
+          <button
             onClick={handleDelete}
             disabled={isDeleting}
             style={{
@@ -191,7 +191,7 @@ export default function DeleteAccountModal({ isOpen, onClose, onSuccess }: Delet
               ...(isDeleting ? modalStyles.disabledButton : {})
             }}
           >
-            {isDeleting ? 'Eliminando...' : 'Confirmar Eliminación'}
+            {isDeleting ? 'Deleting...' : 'Confirm Deletion'}
           </button>
         </div>
       </div>

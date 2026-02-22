@@ -30,7 +30,7 @@ export default function ToggleUserStatusModal({
       onSuccess?.();
       onClose();
     } catch (err) {
-      setError('Error al actualizar el estado del usuario');
+      setError('Error updating user status');
       console.error('Error al cambiar estado:', err);
     } finally {
       setIsUpdating(false);
@@ -116,12 +116,12 @@ export default function ToggleUserStatusModal({
     <div style={modalStyles.overlay} onClick={onClose}>
       <div style={modalStyles.content} onClick={(e) => e.stopPropagation()}>
         <h2 style={modalStyles.title}>
-          {currentStatus ? 'Desactivar Cuenta' : 'Activar Cuenta'}
+          {currentStatus ? 'Deactivate Account' : 'Activate Account'}
         </h2>
         {error && <p style={modalStyles.errorText}>{error}</p>}
         <p style={modalStyles.text}>
-          ¿Estás seguro que deseas {currentStatus ? 'desactivar' : 'activar'} tu cuenta? 
-          {currentStatus ? ' No podrás acceder al sistema hasta que sea reactivada.' : ''}
+          Are you sure you want to {currentStatus ? 'deactivate' : 'activate'} your account?
+          {currentStatus ? ' You will not be able to access the system until it is reactivated.' : ''}
         </p>
         
         <div style={modalStyles.buttonContainer}>
@@ -134,9 +134,9 @@ export default function ToggleUserStatusModal({
               ...(isUpdating ? modalStyles.disabledButton : {})
             }}
           >
-            Cancelar
+            Cancel
           </button>
-          <button 
+          <button
             onClick={handleToggleStatus}
             disabled={isUpdating}
             style={{
@@ -145,7 +145,7 @@ export default function ToggleUserStatusModal({
               ...(isUpdating ? modalStyles.disabledButton : {})
             }}
           >
-            {isUpdating ? 'Procesando...' : 'Confirmar'}
+            {isUpdating ? 'Processing...' : 'Confirm'}
           </button>
         </div>
       </div>

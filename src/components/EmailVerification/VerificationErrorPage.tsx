@@ -12,16 +12,16 @@ export default function VerificationErrorPage() {
     
     // Set appropriate error message based on the cause
     if (errorCause === 'invalid-token') {
-      setErrorMessage('El enlace de verificación no es válido o ha expirado.');
+      setErrorMessage('The verification link is invalid or has expired.');
     } else if (errorCause === 'verification-failed') {
       const stateError = location.state?.error;
       if (stateError?.includes('expired')) {
-        setErrorMessage('El enlace de verificación ha expirado. Por favor solicita uno nuevo.');
+        setErrorMessage('The verification link has expired. Please request a new one.');
       } else {
-        setErrorMessage('Ha ocurrido un error durante la verificación. Por favor intenta de nuevo.');
+        setErrorMessage('An error occurred during verification. Please try again.');
       }
     } else {
-      setErrorMessage('Ha ocurrido un error inesperado.');
+      setErrorMessage('An unexpected error occurred.');
     }
   }, [searchParams, location.state]);
 
@@ -89,14 +89,14 @@ export default function VerificationErrorPage() {
 
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Error de verificación</h2>
+      <h2 style={styles.title}>Verification Error</h2>
       <p style={styles.text}>{errorMessage}</p>
       <div>
         <button style={styles.button} onClick={handleResendVerification}>
-          Reenviar email de verificación
+          Resend verification email
         </button>
         <button style={styles.secondaryButton} onClick={handleBackHome}>
-          Volver al inicio
+          Back to Home
         </button>
       </div>
     </div>

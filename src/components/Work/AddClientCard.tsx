@@ -38,9 +38,9 @@ export default function AddClientCard({}: AddClientCardProps) {
 
       setToken(tokenId);
       await navigator.clipboard.writeText(tokenId);
-      showFeedbackMessage('Token generado y copiado al portapapeles', false);
+      showFeedbackMessage('Token generated and copied to clipboard', false);
     } catch (error) {
-      showFeedbackMessage('Error al generar el token', true);
+      showFeedbackMessage('Error generating token', true);
     }
     setIsGenerating(false);
   };
@@ -185,7 +185,7 @@ export default function AddClientCard({}: AddClientCardProps) {
       setShowDialog(true);
       setToken(null);
     } else {
-      showFeedbackMessage('Tu cuenta está inactiva. No puedes agregar clientes.', true);
+      showFeedbackMessage('Your account is inactive. You cannot add clients.', true);
     }
   };
 
@@ -196,11 +196,11 @@ export default function AddClientCard({}: AddClientCardProps) {
         onMouseLeave={() => setIsHovered(false)}
         onClick={isEntrenadorActivo && isActive ? handleOpenDialog : undefined}
         style={styles.card}
-        title={isEntrenadorActivo ? "Agregar nuevo cliente" : "Cuenta inactiva"}
+        title={isEntrenadorActivo ? "Add new client" : "Inactive account"}
       >
         {(!isEntrenadorActivo || !isActive) && (
           <div style={styles.inactiveOverlay}>
-            {isEntrenadorActivo ? 'Usuario Inactivo' : 'Cuenta Inactiva'}
+            {isEntrenadorActivo ? 'Inactive User' : 'Inactive Account'}
           </div>
         )}
         <div style={styles.icon}>
@@ -208,33 +208,33 @@ export default function AddClientCard({}: AddClientCardProps) {
             <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </div>
-        <p style={styles.text}>Agregar nuevo cliente</p>
+        <p style={styles.text}>Add new client</p>
       </div>
 
       {showDialog && currentUser && (
         <div style={styles.overlay} onClick={() => setShowDialog(false)}>
           <div style={styles.dialogContent} onClick={(e) => e.stopPropagation()}>
-            <h2 style={styles.title}>Token para cliente</h2>
+            <h2 style={styles.title}>Client Token</h2>
             <p style={{ textAlign: 'center', fontFamily: '"ABeeZee", sans-serif' }}>
-              Genera un token temporal y compártelo con tu cliente.
+              Generate a temporary token and share it with your client.
             </p>
 
             <div
               style={styles.idBox}
               onClick={token ? () => navigator.clipboard.writeText(token) : undefined}
             >
-              {token ?? 'Token no generado aún'}
+              {token ?? 'Token not yet generated'}
             </div>
 
             <button style={styles.button} onClick={generarToken} disabled={isGenerating}>
-              {isGenerating ? 'Generando...' : 'Generar Token'}
+              {isGenerating ? 'Generating...' : 'Generate Token'}
             </button>
 
             <button
               onClick={() => setShowDialog(false)}
               style={{ ...styles.button, backgroundColor: '#6B705C', marginTop: '1rem' }}
             >
-              Cerrar
+              Close
             </button>
           </div>
         </div>

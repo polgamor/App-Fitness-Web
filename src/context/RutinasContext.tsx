@@ -82,7 +82,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
   const fetchRutinas = async (entrenadorId: string, clienteId: string) => {
     try {
       if (!auth.currentUser) {
-        throw new Error('Usuario no autenticado');
+        throw new Error('User not authenticated');
       }
 
       let q = query(
@@ -119,7 +119,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
       });
       return docRef.id;
     } catch (err) {
-      setError('Error al crear rutina');
+      setError('Error creating routine');
       console.error(err);
       throw err;
     } finally {
@@ -182,7 +182,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
         };
       });
     } catch (err) {
-      setError('Error al agregar ejercicio');
+      setError('Error adding exercise');
       console.error(err);
       throw err;
     } finally {
@@ -212,7 +212,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
         };
       });
     } catch (err) {
-      setError('Error al agregar día');
+      setError('Error adding day');
       console.error(err);
       throw err;
     } finally {
@@ -235,7 +235,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
             return updatedRutinas;
         });
     } catch (error) {
-        setError('Error al actualizar rutina');
+        setError('Error updating routine');
         console.error(error);
         throw error;
     }
@@ -282,7 +282,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
         };
       });
     } catch (err) {
-      setError('Error al actualizar ejercicio');
+      setError('Error updating exercise');
       console.error(err);
       throw err;
     } finally {
@@ -331,7 +331,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
         };
       });
     } catch (err) {
-      setError('Error al registrar hora de entrenamiento');
+      setError('Error registering training time');
       console.error(err);
       throw err;
     } finally {
@@ -349,7 +349,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
       const rutinaRef = doc(db, 'rutinas', rutinaId);
       const docSnap = await getDoc(rutinaRef);
       if (!docSnap.exists()) {
-        throw new Error('La rutina no existe o ya fue eliminada');
+        throw new Error('The routine does not exist or has already been deleted');
       }
       
       await deleteDoc(rutinaRef);
@@ -360,7 +360,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
       });
     } catch (err) {
       console.error('Error en eliminarRutina:', err);
-      setError(err instanceof Error ? err.message : 'Error al eliminar la rutina');
+      setError(err instanceof Error ? err.message : 'Error deleting routine');
       throw err;
     } finally {
       setLoading(false);
@@ -382,7 +382,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
         return newRutinas;
       });
     } catch (err) {
-      setError('Error al eliminar día de rutina');
+      setError('Error deleting routine day');
       console.error(err);
       throw err;
     } finally {
@@ -405,7 +405,7 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
         return newRutinas;
       });
     } catch (err) {
-      setError('Error al eliminar ejercicio');
+      setError('Error deleting exercise');
       console.error(err);
       throw err;
     } finally {
@@ -437,6 +437,6 @@ export function RutinasProvider({ children }: { children: ReactNode }) {
 
 export const useRutinas = () => {
   const context = useContext(RutinasContext);
-  if (!context) throw new Error('useRutinas debe usarse dentro de RutinasProvider');
+  if (!context) throw new Error('useRutinas must be used within a RutinasProvider');
   return context;
 };

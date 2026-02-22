@@ -71,13 +71,13 @@ export default function EmailVerificationModal() {
   return (
     <div style={styles.overlay}>
       <div style={styles.modal}>
-        <h2 style={styles.title}>Revisa tu correo electrónico</h2>
+        <h2 style={styles.title}>Check your email</h2>
         <p style={styles.text}>
-          Te hemos enviado un enlace para verificar tu dirección de email. 
-          Haz clic en él para completar el proceso.
+          We have sent you a link to verify your email address.
+          Click on it to complete the process.
         </p>
         <button style={styles.button} onClick={handleBackHome}>
-          Volver al inicio
+          Back to Home
         </button>
       </div>
     </div>

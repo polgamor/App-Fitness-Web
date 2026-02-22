@@ -117,14 +117,14 @@ export default function Footer() {
           />
           <h3 style={styles.logoText}>APPFIT</h3>
           <p style={styles.slogan}>
-            Transformando vidas a través del fitness desde 2023
+            Transforming lives through fitness since 2023
           </p>
         </div>
 
         <div>
-          <h4 style={styles.columnTitle}>Enlaces Rápidos</h4>
+          <h4 style={styles.columnTitle}>Quick Links</h4>
           <ul style={styles.linkList}>
-            {['Inicio', 'Funcionalidades', 'Precios', 'Testimonios', 'Blog'].map((item) => (
+            {['Home', 'Features', 'Pricing', 'Testimonials', 'Blog'].map((item) => (
               <li key={item}>
                 <a href="#" style={styles.linkItem}>{item}</a>
               </li>
@@ -135,7 +135,7 @@ export default function Footer() {
         <div>
           <h4 style={styles.columnTitle}>Legal</h4>
           <ul style={styles.linkList}>
-            {['Términos de servicio', 'Política de privacidad', 'Cookies', 'FAQ'].map((item) => (
+            {['Terms of Service', 'Privacy Policy', 'Cookies', 'FAQ'].map((item) => (
               <li key={item}>
                 <a href="#" style={styles.linkItem}>{item}</a>
               </li>
@@ -144,7 +144,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4 style={styles.columnTitle}>Contacto</h4>
+          <h4 style={styles.columnTitle}>Contact</h4>
           <ul style={styles.linkList}>
             <li>info@appfit.com</li>
             <li>+34 123 456 789</li>
@@ -155,7 +155,7 @@ export default function Footer() {
       </div>
 
       <div style={styles.copyright}>
-        &copy; {new Date().getFullYear()} APPFIT. Todos los derechos reservados.
+        &copy; {new Date().getFullYear()} APPFIT. All rights reserved.
       </div>
     </footer>
   );

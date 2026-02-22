@@ -42,7 +42,7 @@ export default function RutinasContent({ client }: RutinasContentProps) {
         await fetchRutinas(client.entrenador_ID, client.id);
       } catch (err) {
         console.error('Error loading rutinas:', err);
-        setLocalError('Error al cargar las rutinas');
+        setLocalError('Error loading routines');
       }
     };
 
@@ -88,7 +88,7 @@ export default function RutinasContent({ client }: RutinasContentProps) {
       await eliminarRutina(currentItem.id);
       setShowDeleteModal(false);
     } catch (error) {
-      setLocalError('Error al eliminar la rutina');
+      setLocalError('Error deleting routine');
     }
   };
 
@@ -109,15 +109,15 @@ export default function RutinasContent({ client }: RutinasContentProps) {
       await actualizarRutina(rutina.id, { activo: !rutina.activo });
       await fetchRutinas(client.entrenador_ID, client.id);
     } catch (err) {
-      setLocalError('Error al actualizar rutina');
+      setLocalError('Error updating routine');
     }
   };
 
   const formatDate = (date: Date | Timestamp | undefined): string => {
-    if (!date) return 'Fecha no disponible';
+    if (!date) return 'Date not available';
     if (date instanceof Date) return date.toLocaleDateString();
     if (date instanceof Timestamp) return date.toDate().toLocaleDateString();
-    return 'Fecha no disponible';
+    return 'Date not available';
   };
 
   const styles: { [key: string]: CSSProperties } = {
@@ -293,12 +293,12 @@ export default function RutinasContent({ client }: RutinasContentProps) {
     }
   };
 
-  if (loading) return <p style={styles.loadingText}>Cargando rutinas...</p>;
+  if (loading) return <p style={styles.loadingText}>Loading routines...</p>;
   if (error || localError) {
     return (
       <div style={styles.errorMessage}>
         <p>{error || localError}</p>
-        <button onClick={retry}>Reintentar</button>
+        <button onClick={retry}>Retry</button>
       </div>
     );
   }
@@ -307,14 +307,14 @@ export default function RutinasContent({ client }: RutinasContentProps) {
     <div style={styles.container}>
       <div style={styles.contentArea}>
         <div style={styles.sectionHeader}>
-          <h3 style={styles.sectionTitle}>Rutinas de {client.nombre}</h3>
+          <h3 style={styles.sectionTitle}>Routines for {client.nombre}</h3>
           <button style={styles.addButton} onClick={handleAddClick}>
             +
           </button>
         </div>
 
         {clientRutinas.length === 0 ? (
-          <p style={styles.emptyState}>No hay rutinas asignadas</p>
+          <p style={styles.emptyState}>No routines assigned</p>
         ) : (
           clientRutinas.map((rutina) => (
             <div key={rutina.id} style={styles.card}>
@@ -322,28 +322,28 @@ export default function RutinasContent({ client }: RutinasContentProps) {
                 ...styles.cardHeader,
                 backgroundColor: rutina.activo ? '#588157' : '#999999' 
               }}>
-                <span>Rutina creada: {formatDate(rutina.fechaCreacion)}</span>
+                <span>Routine created: {formatDate(rutina.fechaCreacion)}</span>
                 <div style={styles.headerActions}>
                   <label style={{ display: 'flex', alignItems: 'center', color: '#fff', fontSize: '0.875rem', marginRight: '0.5rem' }}>
-                    Activa
-                    <input 
-                      type="checkbox" 
-                      checked={rutina.activo} 
-                      onChange={() => handleToggleActivo(rutina)} 
-                      style={{ marginLeft: '0.5rem' }} 
+                    Active
+                    <input
+                      type="checkbox"
+                      checked={rutina.activo}
+                      onChange={() => handleToggleActivo(rutina)}
+                      style={{ marginLeft: '0.5rem' }}
                     />
                     </label>
-                  <button 
+                  <button
                     style={{...styles.actionButton, ...styles.editButton}}
                     onClick={() => handleEditClick(rutina)}
                   >
-                    Editar
+                    Edit
                   </button>
-                  <button 
+                  <button
                     style={{...styles.actionButton, ...styles.deleteButton}}
                     onClick={() => handleDeleteClick(rutina)}
                   >
-                    Eliminar
+                    Delete
                   </button>
                 </div>
               </div>
@@ -357,10 +357,10 @@ export default function RutinasContent({ client }: RutinasContentProps) {
                   })
                   .map(([diaId, dia]: [string, any]) => (
                     <div key={diaId} style={{ marginBottom: '1.5rem' }}>
-                      <h4>Día {diaId.replace('dia', '')}</h4>
+                      <h4>Day {diaId.replace('dia', '')}</h4>
                       {dia.horaEntrenamiento && (
                         <p>
-                          <span style={styles.label}>Hora de entrenamiento:</span>
+                          <span style={styles.label}>Training time:</span>
                           <span style={styles.value}>{dia.horaEntrenamiento}</span>
                         </p>
                       )}
@@ -371,60 +371,60 @@ export default function RutinasContent({ client }: RutinasContentProps) {
                           
                           {ejercicio.series && (
                             <div style={styles.trainerData}>
-                              <span style={styles.trainerLabel}>Series:</span>
+                              <span style={styles.trainerLabel}>Sets:</span>
                               <span style={styles.trainerValue}>{ejercicio.series}</span>
                             </div>
                           )}
-                          
+
                           <div style={styles.ejercicioDetails}>
                             {ejercicio.pesoE && (
                               <div style={styles.trainerData}>
-                                <span style={styles.trainerLabel}>Peso E:</span>
+                                <span style={styles.trainerLabel}>Trainer Weight:</span>
                                 <span style={styles.trainerValue}>{ejercicio.pesoE} kg</span>
                               </div>
                             )}
-                            
+
                             {ejercicio.repsE && (
                               <div style={styles.trainerData}>
-                                <span style={styles.trainerLabel}>Reps E:</span>
+                                <span style={styles.trainerLabel}>Trainer Reps:</span>
                                 <span style={styles.trainerValue}>{ejercicio.repsE}</span>
                               </div>
                             )}
-                            
+
                             {ejercicio.RIRE && (
                               <div style={styles.trainerData}>
-                                <span style={styles.trainerLabel}>RIR E:</span>
+                                <span style={styles.trainerLabel}>Trainer RIR:</span>
                                 <span style={styles.trainerValue}>{ejercicio.RIRE}</span>
                               </div>
                             )}
 
                             {ejercicio.pesoC && (
                               <div style={styles.clientData}>
-                                <span style={styles.clientLabel}>Peso C:</span>
+                                <span style={styles.clientLabel}>Client Weight:</span>
                                 <span style={styles.clientValue}>{ejercicio.pesoC} kg</span>
                               </div>
                             )}
-                            
+
                             {ejercicio.repsC && (
                               <div style={styles.clientData}>
-                                <span style={styles.clientLabel}>Reps C:</span>
+                                <span style={styles.clientLabel}>Client Reps:</span>
                                 <span style={styles.clientValue}>{ejercicio.repsC}</span>
                               </div>
                             )}
-                            
+
                             {ejercicio.RIRC && (
                               <div style={styles.clientData}>
-                                <span style={styles.clientLabel}>RIR C:</span>
+                                <span style={styles.clientLabel}>Client RIR:</span>
                                 <span style={styles.clientValue}>{ejercicio.RIRC}</span>
                               </div>
                             )}
                           </div>
-                          
+
                           {ejercicio.completado !== undefined && (
                             <div style={{ marginTop: '0.5rem' }}>
-                              <span style={styles.label}>Completado: </span>
+                              <span style={styles.label}>Completed: </span>
                               <span style={ejercicio.completado ? styles.completadoTrue : styles.completadoFalse}>
-                                {ejercicio.completado ? 'Sí' : 'No'}
+                                {ejercicio.completado ? 'Yes' : 'No'}
                               </span>
                             </div>
                           )}
@@ -467,7 +467,7 @@ export default function RutinasContent({ client }: RutinasContentProps) {
             await fetchRutinas(client.id, client.entrenador_ID);
             setShowUpdateModal(false);
           } catch (error) {
-            setLocalError('Error al actualizar');
+            setLocalError('Error updating');
           }
         }}
         itemType="rutina"
@@ -484,7 +484,7 @@ export default function RutinasContent({ client }: RutinasContentProps) {
 
       <AlertModal 
         isOpen={alertModalOpen}
-        message="No puedes activar esta rutina porque ya hay otra activa."
+        message="You cannot activate this routine because another one is already active."
         onClose={() => {
           setAlertModalOpen(false);
           setRutinaToActivate(null); 

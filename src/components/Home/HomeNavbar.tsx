@@ -71,7 +71,7 @@ export default function Navbar() {
         <button 
           onClick={() => setIsModalOpen(true)}
           style={styles.loginButton}
-          aria-label="Abrir menú de usuario"
+          aria-label="Open user menu"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >

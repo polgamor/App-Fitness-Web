@@ -8,8 +8,8 @@ interface ClientSidebarProps {
 }
 
 const topSections = [
-  { id: 'dietas', name: 'Dietas', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-  { id: 'rutinas', name: 'Rutinas', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+  { id: 'dietas', name: 'Diets', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { id: 'rutinas', name: 'Routines', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
 ];
 
 const bottomSections = [
@@ -120,12 +120,12 @@ export default function ClientSidebar({
     switch (objetivo) {
       case 1:
       case '1':
-        return 'Definición';
+        return 'Cutting';
       case 2:
       case '2':
-        return 'Volumen';
+        return 'Bulking';
       default:
-        return 'Objetivo desconocido';
+        return 'Unknown goal';
     }
   }
 
@@ -149,7 +149,7 @@ export default function ClientSidebar({
             </svg>
           </div>
           <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>
-            Objetivo: {traducirObjetivo(client.objetivo)}
+            Goal: {traducirObjetivo(client.objetivo)}
           </p>
           <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>{client.altura} cm</p>
           <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>{client.peso} kg</p>

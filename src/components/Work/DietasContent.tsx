@@ -42,7 +42,7 @@ export default function DietasContent({ client }: DietasContentProps) {
         await fetchDietas(client.id, client.entrenador_ID);
       } catch (err) {
         console.error('Error loading dietas:', err);
-        setLocalError('Error al cargar las dietas');
+        setLocalError('Error loading diets');
       }
     };
 
@@ -85,7 +85,7 @@ export default function DietasContent({ client }: DietasContentProps) {
       await fetchDietas(client.id, client.entrenador_ID);
       setShowDeleteModal(false);
     } catch (error) {
-      setLocalError('Error al eliminar la dieta');
+      setLocalError('Error deleting diet');
     }
   };
 
@@ -107,15 +107,15 @@ export default function DietasContent({ client }: DietasContentProps) {
       await actualizarDieta(dieta.id, { activo: !dieta.activo });
       await fetchDietas(client.id, client.entrenador_ID);
     } catch (err) {
-      setLocalError('Error al actualizar dieta');
+      setLocalError('Error updating diet');
     }
   };
 
   const formatDate = (date: Date | Timestamp | undefined): string => {
-    if (!date) return 'Fecha no disponible';
+    if (!date) return 'Date not available';
     if (date instanceof Date) return date.toLocaleDateString();
     if (date instanceof Timestamp) return date.toDate().toLocaleDateString();
-    return 'Fecha no disponible';
+    return 'Date not available';
   };
 
   const styles: { [key: string]: CSSProperties } = {
@@ -243,12 +243,12 @@ export default function DietasContent({ client }: DietasContentProps) {
     }
   };
 
-  if (loading) return <p style={styles.loadingText}>Cargando dietas...</p>;
+  if (loading) return <p style={styles.loadingText}>Loading diets...</p>;
   if (error || localError) {
     return (
       <div style={styles.errorMessage}>
         <p>{error || localError}</p>
-        <button onClick={retry}>Reintentar</button>
+        <button onClick={retry}>Retry</button>
       </div>
     );
   }
@@ -257,14 +257,14 @@ export default function DietasContent({ client }: DietasContentProps) {
     <div style={styles.container}>
       <div style={styles.contentArea}>
         <div style={styles.sectionHeader}>
-          <h3 style={styles.sectionTitle}>Dietas de {client.nombre}</h3>
+          <h3 style={styles.sectionTitle}>Diets for {client.nombre}</h3>
           <button style={styles.addButton} onClick={handleAddClick}>
             +
           </button>
         </div>
 
         {dietasCliente.length === 0 ? (
-          <p style={styles.emptyState}>No hay dietas asignadas</p>
+          <p style={styles.emptyState}>No diets assigned</p>
         ) : (
           dietasCliente.map((dieta: any, dietaIndex: number) => (
             <div key={dietaIndex} style={styles.card}>
@@ -272,28 +272,28 @@ export default function DietasContent({ client }: DietasContentProps) {
                 ...styles.cardHeader,
                 backgroundColor: dieta.activo ? '#588157' : '#999999' // color dinámico
               }}>
-                <span>Dieta creada: {formatDate(dieta.fechaCreacion)} | Calorías: {dieta.caloriasTotales}</span>
+                <span>Diet created: {formatDate(dieta.fechaCreacion)} | Calories: {dieta.caloriasTotales}</span>
                   <div style={styles.headerActions}>
                     <label style={{ display: 'flex', alignItems: 'center', color: '#fff', fontSize: '0.875rem', marginRight: '0.5rem' }}>
-                      Activa
-                      <input 
-                        type="checkbox" 
-                        checked={dieta.activo} 
-                        onChange={() => handleToggleActivo(dieta)} 
-                        style={{ marginLeft: '0.5rem' }} 
+                      Active
+                      <input
+                        type="checkbox"
+                        checked={dieta.activo}
+                        onChange={() => handleToggleActivo(dieta)}
+                        style={{ marginLeft: '0.5rem' }}
                       />
                     </label>
-                    <button 
+                    <button
                       style={{...styles.actionButton, ...styles.editButton}}
                       onClick={() => handleEditClick(dieta)}
                     >
-                      Editar
+                      Edit
                     </button>
-                    <button 
+                    <button
                       style={{...styles.actionButton, ...styles.deleteButton}}
                       onClick={() => handleDeleteClick(dieta)}
                     >
-                      Eliminar
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -303,25 +303,25 @@ export default function DietasContent({ client }: DietasContentProps) {
                     <h4 style={{ textTransform: 'capitalize' }}>{comidaId} - {comida.calorias} kcal</h4>
                     {comida.opciones && Object.entries(comida.opciones).map(([opId, opcion]: [string, any]) => (
                       <div key={opId} style={styles.trainerData}>
-                        <p style={{ fontWeight: 500 }}>Opción {opId.replace('opcion_', '')}</p>
+                        <p style={{ fontWeight: 500 }}>Option {opId.replace('opcion_', '')}</p>
                         <p style={styles.trainerValue}>{opcion.descripcion}</p>
                         <div style={{ display: 'flex', gap: '1rem', marginTop: '0.5rem' }}>
                           <div>
-                            <span style={styles.trainerLabel}>Proteína:</span>
+                            <span style={styles.trainerLabel}>Protein:</span>
                             <span style={styles.trainerValue}>{opcion.proteina}g</span>
                           </div>
                           <div>
-                            <span style={styles.trainerLabel}>Hidratos:</span>
+                            <span style={styles.trainerLabel}>Carbs:</span>
                             <span style={styles.trainerValue}>{opcion.hidratos}g</span>
                           </div>
                           <div>
-                            <span style={styles.trainerLabel}>Grasas:</span>
+                            <span style={styles.trainerLabel}>Fat:</span>
                             <span style={styles.trainerValue}>{opcion.grasas}g</span>
                           </div>
                         </div>
                         {opcion.otros && (
                           <p>
-                            <span style={styles.trainerLabel}>Otros:</span>
+                            <span style={styles.trainerLabel}>Other:</span>
                             <span style={styles.trainerValue}>{opcion.otros}</span>
                           </p>
                         )}
@@ -360,7 +360,7 @@ export default function DietasContent({ client }: DietasContentProps) {
             await fetchDietas(client.id, client.entrenador_ID);
             setShowUpdateModal(false);
           } catch (error) {
-            setLocalError('Error al actualizar');
+            setLocalError('Error updating');
           }
         }}
         itemType="dieta"
@@ -377,7 +377,7 @@ export default function DietasContent({ client }: DietasContentProps) {
 
       <AlertModal
         isOpen={alertModalOpen}
-        message="No puedes activar esta dieta porque ya hay otra activa."
+        message="You cannot activate this diet because another one is already active."
         onClose={() => {
           setAlertModalOpen(false);
           setDietaToActivate(null);

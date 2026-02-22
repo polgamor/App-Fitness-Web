@@ -105,12 +105,12 @@ export default function LoginForm({}: LoginFormProps) {
     setError('');
 
     if (!email || !password) {
-      setError('Email y contraseña son obligatorios');
+      setError('Email and password are required');
       return;
     }
 
     if (!/\S+@\S+\.\S+/.test(email)) {
-      setError('Por favor ingrese un email válido');
+      setError('Please enter a valid email address');
       return;
     }
 
@@ -121,7 +121,7 @@ export default function LoginForm({}: LoginFormProps) {
       const { currentUser } = auth;
 
       if (currentUser && !currentUser.emailVerified) {
-        setError('Por favor verifica tu correo electrónico antes de iniciar sesión');
+        setError('Please verify your email before signing in');
         await signOut(auth);
         return;
       }
@@ -136,24 +136,24 @@ export default function LoginForm({}: LoginFormProps) {
   };
 
   const formatAuthError = (error: unknown): string => {
-    if (!(error instanceof Error)) return 'Error desconocido al iniciar sesión';
+    if (!(error instanceof Error)) return 'Unknown error signing in';
 
     const authError = error as AuthError;
     switch (authError.code) {
       case 'auth/user-not-found':
-        return 'Usuario no registrado';
+        return 'User not registered';
       case 'auth/wrong-password':
-        return 'Contraseña incorrecta';
+        return 'Incorrect password';
       case 'auth/too-many-requests':
-        return 'Demasiados intentos fallidos. Por favor intente más tarde.';
+        return 'Too many failed attempts. Please try again later.';
       case 'auth/invalid-email':
-        return 'Email no válido';
+        return 'Invalid email address';
       case 'auth/unverified-email':
-        return 'Email no verificado';
+        return 'Email not verified';
       case 'auth/role-not-allowed':
-        return 'No tienes permisos para acceder a esta plataforma';
+        return 'You do not have permission to access this platform';
       default:
-        return 'Error al iniciar sesión. Por favor intente nuevamente.';
+        return 'Error signing in. Please try again.';
     }
   };
 
@@ -187,7 +187,7 @@ export default function LoginForm({}: LoginFormProps) {
               marginBottom: '1rem',
               textTransform: 'uppercase',
             }}>
-              ¡Correo verificado!
+              Email Verified!
             </h2>
             <p style={{
               fontSize: '1rem',
@@ -195,7 +195,7 @@ export default function LoginForm({}: LoginFormProps) {
               fontFamily: '"ABeeZee", sans-serif',
               marginBottom: '1.5rem',
             }}>
-              Tu dirección de correo ha sido verificada correctamente. Ya puedes iniciar sesión.
+              Your email address has been successfully verified. You can now sign in.
             </p>
             <button onClick={handleCloseModal} style={{
               backgroundColor: '#3A5A40',
@@ -208,7 +208,7 @@ export default function LoginForm({}: LoginFormProps) {
               fontSize: '1rem',
               fontWeight: 500,
             }}>
-              Aceptar
+              Accept
             </button>
           </div>
         </div>
@@ -216,11 +216,11 @@ export default function LoginForm({}: LoginFormProps) {
 
       <form onSubmit={handleSubmit} style={styles.container}>
         <div style={styles.inputGroup}>
-          <label htmlFor="email" style={styles.label}>Correo electrónico</label>
+          <label htmlFor="email" style={styles.label}>Email</label>
           <input
             id="email"
             type="email"
-            placeholder="Correo electrónico"
+            placeholder="Email"
             value={email}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             required
@@ -230,11 +230,11 @@ export default function LoginForm({}: LoginFormProps) {
         </div>
 
         <div style={styles.inputGroup}>
-          <label htmlFor="password" style={styles.label}>Contraseña</label>
+          <label htmlFor="password" style={styles.label}>Password</label>
           <input
             id="password"
             type="password"
-            placeholder="Contraseña"
+            placeholder="Password"
             value={password}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             required
@@ -254,7 +254,7 @@ export default function LoginForm({}: LoginFormProps) {
             cursor: loading ? 'not-allowed' : 'pointer',
           }}
         >
-          {loading ? 'Iniciando sesión...' : 'Iniciar sesión'}
+          {loading ? 'Signing in...' : 'Sign in'}
         </button>
       </form>
     </>

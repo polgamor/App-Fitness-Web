@@ -126,12 +126,12 @@ export default function ClientCard({ client, onClick }: ClientCardProps) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      {(!isActive || !isEntrenadorActivo) && <div style={styles.inactiveOverlay}>{isEntrenadorActivo ? "Usuario Inactivo" : "Cuenta Inactiva"}</div>}
+      {(!isActive || !isEntrenadorActivo) && <div style={styles.inactiveOverlay}>{isEntrenadorActivo ? "Inactive User" : "Inactive Account"}</div>}
       <div style={styles.nameSection}>
         <h3 style={styles.fullName}>
           {client.nombre} {client.apellido} {client.apellido2 || ""}
         </h3>
-        <span style={styles.statusBadge}>{isActive ? "Activo" : "Inactivo"}</span>
+        <span style={styles.statusBadge}>{isActive ? "Active" : "Inactive"}</span>
       </div>
 
       <div style={styles.infoSection}>
@@ -141,7 +141,7 @@ export default function ClientCard({ client, onClick }: ClientCardProps) {
         </div>
 
         <div style={styles.infoRow}>
-          <span style={styles.label}>Teléfono:</span>
+          <span style={styles.label}>Phone:</span>
           <span style={styles.value}>{client.telefono}</span>
         </div>
       </div>

@@ -89,7 +89,7 @@ export default function WorkNavbar() {
     <>
       <header style={styles.header}>
         <div style={styles.logoContainer}>
-          <h1 style={styles.logoText}>Panel Entrenador</h1>
+          <h1 style={styles.logoText}>Trainer Dashboard</h1>
         </div>
         
         <div style={styles.navContainer}>

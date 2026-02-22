@@ -95,10 +95,10 @@ const UpdateDataModal = ({
 
   const handleRemoveEjercicio = (diaId: string, ejercicioId: string) => {
     if (!formData?.dias?.[diaId]?.ej?.[ejercicioId]) {
-      setError('No se encontró el ejercicio a eliminar');
+      setError('Exercise not found');
       return;
     }
-    if (window.confirm('¿Estás seguro de eliminar este ejercicio?')) {
+    if (window.confirm('Are you sure you want to remove this exercise?')) {
       const newData = { ...formData };
       delete newData.dias[diaId].ej[ejercicioId];
       if (Object.keys(newData.dias[diaId].ej).length === 0) {
@@ -184,11 +184,11 @@ const UpdateDataModal = ({
 
   const handleRemoveSuplemento = (suplementoId: string) => {
     if (!formData?.suplementos?.[suplementoId]) {
-      setError('No se encontró el suplemento a eliminar');
+      setError('Supplement not found');
       return;
     }
-    
-    if (window.confirm('¿Estás seguro de eliminar este suplemento?')) {
+
+    if (window.confirm('Are you sure you want to remove this supplement?')) {
       const newData = { ...formData };
       delete newData.suplementos[suplementoId];
       setFormData(newData);
@@ -205,7 +205,7 @@ const UpdateDataModal = ({
       await onSave(formData.id, formData.suplementoId, undefined, formData);
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al guardar');
+      setError(err instanceof Error ? err.message : 'Error saving');
     } finally {
       setIsLoading(false);
     }
@@ -224,7 +224,7 @@ const UpdateDataModal = ({
               style={styles.addButton}
               onClick={handleAddDia}
               >
-              + Añadir día
+              + Add day
             </button>
 
             {formData?.dias && Object.entries(formData.dias).map(([diaId, dia]: [string, any]) => (
@@ -235,17 +235,17 @@ const UpdateDataModal = ({
                   style={styles.deleteButton}
                   onClick={() => handleRemoveDia(diaId)}
                   >
-                  Eliminar día
+                  Delete day
                 </button>
 
-                <h4 style={styles.sectionTitle}>Día {diaId.replace('dia', '')}</h4>
+                <h4 style={styles.sectionTitle}>Day {diaId.replace('dia', '')}</h4>
 
                 <button
                   type="button"
                   style={styles.addButton}
                   onClick={() => handleAddEjercicio(diaId)}
                 >
-                  + Añadir ejercicio
+                  + Add exercise
                 </button>
 
                 {dia.ej && Object.entries(dia.ej).map(([ejId, ejercicio]: [string, any]) => (
@@ -255,10 +255,10 @@ const UpdateDataModal = ({
                       style={styles.deleteSmallButton}
                       onClick={() => handleRemoveEjercicio(diaId, ejId)}
                       >
-                      Eliminar
+                      Delete
                     </button>
                     <div style={styles.formGroup}>
-                      <label style={styles.formLabel}>Nombre del ejercicio</label>
+                      <label style={styles.formLabel}>Exercise name</label>
                       <input
                         type="text"
                         value={ejercicio.nombre || ''}
@@ -269,7 +269,7 @@ const UpdateDataModal = ({
 
                     <div style={styles.formRow}>
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Series</label>
+                        <label style={styles.formLabel}>Sets</label>
                         <input
                           type="text"
                           value={ejercicio.series || ''}
@@ -279,7 +279,7 @@ const UpdateDataModal = ({
                       </div>
 
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Peso</label>
+                        <label style={styles.formLabel}>Weight</label>
                         <input
                           type="text"
                           value={ejercicio.pesoE || ''}
@@ -289,7 +289,7 @@ const UpdateDataModal = ({
                       </div>
 
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Repeticiones</label>
+                        <label style={styles.formLabel}>Reps</label>
                         <input
                           type="number"
                           style={styles.formInput}
@@ -321,7 +321,7 @@ const UpdateDataModal = ({
         return (
           <>
             <div style={styles.formGroup}>
-              <label style={styles.formLabel}>Calorías totales</label>
+              <label style={styles.formLabel}>Total Calories</label>
               <input
                 type="number"
                 name="caloriasTotales"
@@ -336,23 +336,23 @@ const UpdateDataModal = ({
               style={styles.addButton}
               onClick={handleAddComida}
             >
-              + Añadir comida
+              + Add meal
             </button>
 
             {formData?.comidas && Object.entries(formData.comidas).map(([comidaId, comida]: [string, any]) => (
               <div key={comidaId} style={styles.section}>
-                <h4 style={styles.sectionTitle}>Comida: {comidaId.replace('comida', '')}</h4>
+                <h4 style={styles.sectionTitle}>Meal: {comidaId.replace('comida', '')}</h4>
 
                 <button
                   type="button"
                   style={styles.deleteButton}
                   onClick={() => handleRemoveComida(comidaId)}
                   >
-                  Eliminar comida
+                  Delete meal
                 </button>
 
                 <div style={styles.formGroup}>
-                  <label style={styles.formLabel}>Calorías</label>
+                  <label style={styles.formLabel}>Calories</label>
                   <input
                     type="number"
                     value={comida.calorias || 0}
@@ -366,7 +366,7 @@ const UpdateDataModal = ({
                   style={styles.addButton}
                   onClick={() => handleAddOpcion(comidaId)}
                 >
-                  + Añadir opción
+                  + Add option
                 </button>
 
                 {comida.opciones && Object.entries(comida.opciones).map(([opcionId, opcion]: [string, any]) => (
@@ -376,10 +376,10 @@ const UpdateDataModal = ({
                       style={styles.deleteSmallButton}
                       onClick={() => handleRemoveOpcion(comidaId, opcionId)}
                     >
-                      Eliminar
+                      Delete
                     </button>
                     <div style={styles.formGroup}>
-                      <label style={styles.formLabel}>Descripción</label>
+                      <label style={styles.formLabel}>Description</label>
                       <input
                         type="text"
                         value={opcion.descripcion || ''}
@@ -390,7 +390,7 @@ const UpdateDataModal = ({
 
                     <div style={styles.formRow}>
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Proteínas (g)</label>
+                        <label style={styles.formLabel}>Protein (g)</label>
                         <input
                           type="number"
                           value={opcion.proteina || 0}
@@ -400,7 +400,7 @@ const UpdateDataModal = ({
                       </div>
 
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Hidratos (g)</label>
+                        <label style={styles.formLabel}>Carbs (g)</label>
                         <input
                           type="number"
                           value={opcion.hidratos || 0}
@@ -410,7 +410,7 @@ const UpdateDataModal = ({
                       </div>
 
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Grasas (g)</label>
+                        <label style={styles.formLabel}>Fat (g)</label>
                         <input
                           type="number"
                           value={opcion.grasas || 0}
@@ -421,7 +421,7 @@ const UpdateDataModal = ({
                     </div>
 
                     <div style={styles.formGroup}>
-                      <label style={styles.formLabel}>Otros</label>
+                      <label style={styles.formLabel}>Other</label>
                       <input
                         type="text"
                         value={opcion.otros || ''}
@@ -443,7 +443,7 @@ const UpdateDataModal = ({
   return (
     <div style={styles.modalOverlay}>
       <div style={styles.modalContent}>
-        <h3 style={styles.modalTitle}>Editar {itemType}</h3>
+        <h3 style={styles.modalTitle}>Edit {itemType}</h3>
 
         {error && (
           <div style={styles.errorMessage}>
@@ -461,14 +461,14 @@ const UpdateDataModal = ({
               onClick={onClose}
               disabled={isLoading}
             >
-              Cancelar
+              Cancel
             </button>
             <button
               type="submit"
               style={{ ...styles.button, ...styles.saveButton }}
               disabled={isLoading}
             >
-              {isLoading ? 'Guardando...' : 'Guardar cambios'}
+              {isLoading ? 'Saving...' : 'Save changes'}
             </button>
           </div>
         </form>

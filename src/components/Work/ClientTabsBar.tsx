@@ -144,7 +144,7 @@ export default function ClientTabs({
         onClick={onShowClientList}
         style={styles.clientButton}
       >
-        Clientes
+        Clients
       </button>
 
       {/* Contenedor de pestañas */}

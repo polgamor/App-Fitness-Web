@@ -180,17 +180,17 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
     switch (itemType) {
       case 'rutina':
         if (!(formData as RutinaFormData).dias || Object.keys((formData as RutinaFormData).dias).length === 0) {
-          throw new Error('Debe agregar al menos un día a la rutina');
+          throw new Error('You must add at least one day to the routine');
         }
         break;
       case 'dieta':
         if (!(formData as DietaFormData).caloriasTotales) {
-          throw new Error('Las calorías totales son requeridas');
+          throw new Error('Total calories are required');
         }
         break;
       case 'suplemento':
         if (!(formData as SuplementacionFormData).suplementos || Object.keys((formData as SuplementacionFormData).suplementos).length === 0) {
-          throw new Error('Debe agregar al menos un suplemento');
+          throw new Error('You must add at least one supplement');
         }
         break;
     }
@@ -218,12 +218,12 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
         const rutinaData = formData as RutinaFormData;
         
         if (!rutinaData.dias || Object.keys(rutinaData.dias).length === 0) {
-          throw new Error('Debe agregar al menos un día con ejercicios');
+          throw new Error('You must add at least one day with exercises');
         }
 
         for (const diaId in rutinaData.dias) {
           if (!rutinaData.dias[diaId].ej || Object.keys(rutinaData.dias[diaId].ej).length === 0) {
-            throw new Error(`El día ${diaId.replace('dia', '')} no tiene ejercicios`);
+            throw new Error(`Day ${diaId.replace('dia', '')} has no exercises`);
           }
         }
 
@@ -258,7 +258,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
           
         case 'dieta':
           const calorias = Number((formData as DietaFormData).caloriasTotales);
-          if (isNaN(calorias)) throw new Error("Las calorías deben ser un número válido");
+          if (isNaN(calorias)) throw new Error("Calories must be a valid number");
           
           await crearDieta({
             ...baseData,
@@ -286,7 +286,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
       onClose();
     } catch (err) {
       console.error("Error al crear:", err);
-      setError(err instanceof Error ? err.message : 'Error al crear la rutina');
+      setError(err instanceof Error ? err.message : 'Error creating routine');
     }
   };
 
@@ -304,25 +304,25 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
             style={styles.addButton}
             onClick={handleAddDia}
           >
-            + Añadir día
+            + Add day
           </button>
 
           {Object.entries((formData as RutinaFormData).dias || {}).map(([diaId, dia]) => (
             <div key={diaId} style={styles.ejercicioContainer}>
-              <h4 style={styles.ejercicioTitle}>Día {diaId.replace('dia', '')}</h4>
-              
-              <button 
-                type="button" 
+              <h4 style={styles.ejercicioTitle}>Day {diaId.replace('dia', '')}</h4>
+
+              <button
+                type="button"
                 style={styles.addButton}
                 onClick={() => handleAddEjercicio(diaId)}
               >
-                + Añadir ejercicio
+                + Add exercise
               </button>
               
               {dia.ej && Object.entries(dia.ej).map(([ejId, ejercicio]) => (
                 <div key={ejId} style={{marginBottom: '1.5rem'}}>
                   <div style={styles.formGroup}>
-                    <label style={styles.formLabel}>Nombre del ejercicio</label>
+                    <label style={styles.formLabel}>Exercise name</label>
                     <input
                       type="text"
                       style={styles.formInput}
@@ -333,7 +333,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                   </div>
 
                   <div style={styles.formGroup}>
-                    <label style={styles.formLabel}>Series (ej: "3x12")</label>
+                    <label style={styles.formLabel}>Sets (e.g., "3x12")</label>
                     <input
                       type="text"
                       style={styles.formInput}
@@ -345,7 +345,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
 
                   <div style={styles.formRow}>
                     <div style={styles.formGroup}>
-                      <label style={styles.formLabel}>Peso (kg)</label>
+                      <label style={styles.formLabel}>Weight (kg)</label>
                       <input
                         type="number"
                         style={styles.formInput}
@@ -356,7 +356,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                     </div>
 
                     <div style={styles.formGroup}>
-                      <label style={styles.formLabel}>Repeticiones</label>
+                      <label style={styles.formLabel}>Reps</label>
                       <input
                         type="number"
                         style={styles.formInput}
@@ -387,7 +387,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
         return (
           <div style={styles.modalBody}>
             <div style={styles.formGroup}>
-              <label style={styles.formLabel}>Calorías totales</label>
+              <label style={styles.formLabel}>Total Calories</label>
               <input
                 type="text"
                 style={styles.formInput}
@@ -401,7 +401,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
               style={styles.addButton}
               onClick={handleAddComida}
             >
-              + Añadir comida
+              + Add meal
             </button>
 
             {Object.entries((formData as DietaFormData).comidas || {}).map(([comidaId, comida]) => (
@@ -409,7 +409,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                 <h4 style={styles.ejercicioTitle}>{comidaId}</h4>
                 
                 <div style={styles.formGroup}>
-                  <label style={styles.formLabel}>Calorías</label>
+                  <label style={styles.formLabel}>Calories</label>
                   <input
                     type="text"
                     style={styles.formInput}
@@ -423,13 +423,13 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                   style={styles.addButton}
                   onClick={() => handleAddOpcionComida(comidaId)}
                 >
-                  + Añadir opción
+                  + Add option
                 </button>
                 
                 {comida.opciones && Object.entries(comida.opciones).map(([opcionId, opcion]) => (
                   <div key={opcionId} style={{marginBottom: '1.5rem'}}>
                     <div style={styles.formGroup}>
-                      <label style={styles.formLabel}>Descripción</label>
+                      <label style={styles.formLabel}>Description</label>
                       <input
                         type="text"
                         style={styles.formInput}
@@ -440,7 +440,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
 
                     <div style={styles.formRow}>
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Proteína (g)</label>
+                        <label style={styles.formLabel}>Protein (g)</label>
                         <input
                           type="text"
                           style={styles.formInput}
@@ -450,7 +450,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                       </div>
 
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Hidratos (g)</label>
+                        <label style={styles.formLabel}>Carbs (g)</label>
                         <input
                           type="text"
                           style={styles.formInput}
@@ -460,7 +460,7 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                       </div>
 
                       <div style={styles.formGroup}>
-                        <label style={styles.formLabel}>Grasas (g)</label>
+                        <label style={styles.formLabel}>Fat (g)</label>
                         <input
                           type="text"
                           style={styles.formInput}
@@ -649,12 +649,12 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
     <>
       <div style={styles.modalOverlay}>
         <div style={styles.modalContent}>
-          <button style={styles.closeButton} onClick={handleClose} aria-label="Cerrar modal">
+          <button style={styles.closeButton} onClick={handleClose} aria-label="Close modal">
             ×
           </button>
           
           <div style={styles.modalHeader}>
-            <h3 style={styles.modalTitle}>Crear nueva {itemType}</h3>
+            <h3 style={styles.modalTitle}>Create new {itemType}</h3>
           </div>
           
           {error && (
@@ -673,14 +673,14 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
                 onClick={handleClose}
                 disabled={loading}
               >
-                Cancelar
+                Cancel
               </button>
-              <button 
+              <button
                 type="submit"
                 style={{...styles.button, ...styles.saveButton}}
                 disabled={loading}
               >
-                {loading ? 'Creando...' : 'Crear'}
+                {loading ? 'Creating...' : 'Create'}
               </button>
             </div>
           </form>
@@ -689,19 +689,19 @@ const CreateModalData = ({ isOpen, onClose, itemType, clientId, trainerId }: Cre
 
       {showCloseConfirmation && (
         <div style={styles.confirmationModal}>
-          <p>¿Estás seguro que quieres cerrar? Los datos no se guardarán.</p>
+          <p>Are you sure you want to close? Data will not be saved.</p>
           <div style={styles.confirmationButtons}>
-            <button 
+            <button
               style={{...styles.confirmationButton, ...styles.confirmButton}}
               onClick={confirmClose}
             >
-              Sí, cerrar
+              Yes, close
             </button>
-            <button 
+            <button
               style={{...styles.confirmationButton, ...styles.cancelConfirmationButton}}
               onClick={cancelClose}
             >
-              Cancelar
+              Cancel
             </button>
           </div>
         </div>

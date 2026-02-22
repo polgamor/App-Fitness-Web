@@ -173,9 +173,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
               <h2 style={modalStyles.title}>
-                {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
+                {isLogin ? 'Sign In' : 'Register'}
               </h2>
-              
+
               {isLogin ? (
                 <LoginForm onClose={onClose} />
               ) : (
@@ -183,9 +183,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               )}
 
               <p style={modalStyles.switchText}>
-                {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
+                {isLogin ? "Don't have an account?" : 'Already have an account?'}
                 <span style={modalStyles.switchLink} onClick={handleSwitch}>
-                  {isLogin ? ' Crear cuenta' : ' Iniciar sesión'}
+                  {isLogin ? ' Create account' : ' Sign in'}
                 </span>
               </p>
             </motion.div>
@@ -199,12 +199,12 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               transition={{ duration: 0.5 }}
             >
               <h3 style={modalStyles.motivationalText}>
-                {isLogin ? 'Bienvenido de vuelta' : 'Únete a nosotros'}
+                {isLogin ? 'Welcome back' : 'Join us'}
               </h3>
               <p style={modalStyles.subText}>
                 {isLogin
-                  ? 'Estamos emocionados de verte de nuevo'
-                  : 'Cada nuevo miembro es una nueva aventura en tu viaje fitness'}
+                  ? "We're excited to see you again"
+                  : 'Every new member is a new adventure in your fitness journey'}
               </p>
             </motion.div>
           </div>

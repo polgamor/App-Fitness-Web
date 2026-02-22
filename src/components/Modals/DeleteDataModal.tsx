@@ -25,7 +25,7 @@ const DeleteDataModal = ({
       await onConfirm();
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al eliminar');
+      setError(err instanceof Error ? err.message : 'Error deleting');
       console.error('Error en modal:', err);
     } finally {
       setIsDeleting(false);
@@ -35,10 +35,10 @@ const DeleteDataModal = ({
   return (
     <div style={styles.modalOverlay}>
       <div style={styles.modalContent}>
-        <h3 style={styles.modalTitle}>Confirmar eliminación</h3>
+        <h3 style={styles.modalTitle}>Confirm Deletion</h3>
         <p style={styles.modalText}>
-          ¿Estás seguro que deseas eliminar este elemento? 
-          Esta acción no se puede deshacer.
+          Are you sure you want to delete this item?
+          This action cannot be undone.
         </p>
         
         {error && (
@@ -53,14 +53,14 @@ const DeleteDataModal = ({
             onClick={onClose}
             disabled={isDeleting}
           >
-            Cancelar
+            Cancel
           </button>
-          <button 
+          <button
             style={{...styles.button, ...styles.confirmButton}}
             onClick={handleDelete}
             disabled={isDeleting}
           >
-            {isDeleting ? 'Eliminando...' : 'Confirmar'}
+            {isDeleting ? 'Deleting...' : 'Confirm'}
           </button>
         </div>
       </div>

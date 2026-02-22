@@ -104,7 +104,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const entrenadorDoc = await getDoc(entrenadorRef);
       
       if (!entrenadorDoc.exists()) {
-        throw new Error(`No existe entrenador con ID: ${uid}`);
+        throw new Error(`No trainer found with ID: ${uid}`);
       }
       
       const entrenadorData = entrenadorDoc.data();
@@ -237,7 +237,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       // Detecta si el usuario esta autentificado
       if (!auth.currentUser) {
-        throw new Error('No hay usuario autenticado');
+        throw new Error('No authenticated user');
       }
       // Autentifica al usuario
       await reauthenticate(password);
@@ -254,12 +254,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.error("Error al eliminar cuenta:", error);
       if (error instanceof Error) {
         throw new Error(
-          'code' in error && error.code === 'auth/wrong-password' 
-            ? 'Contraseña incorrecta' 
-            : 'Error al eliminar la cuenta. Por favor intenta nuevamente.'
+          'code' in error && error.code === 'auth/wrong-password'
+            ? 'Incorrect password'
+            : 'Error deleting account. Please try again.'
         );
       } else {
-        throw new Error('Error desconocido al eliminar la cuenta');
+        throw new Error('Unknown error deleting account');
       }
     } finally {
       setLoading(false);
@@ -281,7 +281,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           fotoPerfilUrl = await getDownloadURL(storageRef);
         } catch (uploadError) {
           console.error("Error al subir imagen:", uploadError);
-          throw new Error("No se pudo actualizar la imagen de perfil");
+          throw new Error("Could not update profile image");
         }
       }
   
@@ -333,7 +333,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Verifica credenciales antes de operaciones sensibles
   const reauthenticate = async (password: string) => {
     if (!auth.currentUser || !auth.currentUser.email) {
-      throw new Error('Usuario no autenticado');
+      throw new Error('User not authenticated');
     }
     
     const credential = EmailAuthProvider.credential(
@@ -346,7 +346,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Envía correo de verificación usando Firebase
   const sendVerificationEmail = async () => {
-    if (!auth.currentUser) throw new Error('Usuario no autenticado');
+    if (!auth.currentUser) throw new Error('User not authenticated');
     await sendEmailVerification(auth.currentUser, {
       url: window.location.origin + '/verificacion-exitosa',
       handleCodeInApp: true
@@ -412,7 +412,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth debe usarse dentro de un AuthProvider');
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 }

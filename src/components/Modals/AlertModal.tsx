@@ -26,7 +26,7 @@ export default function AlertModal({ isOpen, message, onClose }: AlertModalProps
           backgroundColor: '#588157', color: '#fff', padding: '0.5rem 1rem',
           border: 'none', borderRadius: '0.25rem', cursor: 'pointer'
         }}>
-          Entendido
+          Got it
         </button>
       </div>
     </div>

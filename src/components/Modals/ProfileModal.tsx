@@ -296,17 +296,17 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
       setIsSaving(true);
       
       if (!formData.nombre.trim()) {
-        alert('El nombre es obligatorio');
+        alert('Name is required');
         return;
       }
 
       if (!formData.apellido.trim()) {
-        alert('El apellido es obligatorio');
+        alert('Surname is required');
         return;
       }
 
       if (formData.edad < 18 || formData.edad > 100) {
-        alert('La edad debe estar entre 18 y 100 años');
+        alert('Age must be between 18 and 100');
         return;
       }
 
@@ -335,7 +335,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
       setActiveTab('view');
     } catch (error) {
       console.error('Error al actualizar perfil:', error);
-      alert('No se pudo actualizar el perfil. Por favor intenta nuevamente.');
+      alert('Profile could not be updated. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -354,13 +354,13 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
               style={{ ...styles.tab, ...(activeTab === 'view' ? styles.activeTab : {}) }}
               onClick={() => setActiveTab('view')}
             >
-              Ver Perfil
+              View Profile
             </div>
-            <div 
+            <div
               style={{ ...styles.tab, ...(activeTab === 'edit' ? styles.activeTab : {}) }}
               onClick={() => setActiveTab('edit')}
             >
-              Editar Perfil
+              Edit Profile
             </div>
           </div>
 
@@ -368,64 +368,64 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
             <div style={styles.tabContent}>
               {activeTab === 'view' ? (
                 <>
-                  <h2 style={styles.title}>Información del Entrenador</h2>
+                  <h2 style={styles.title}>Trainer Information</h2>
                   {user.fotoPerfilUrl && (
                     <div style={styles.photoContainer}>
-                      <img src={user.fotoPerfilUrl} alt="Foto de perfil" style={styles.previewImage} />
+                      <img src={user.fotoPerfilUrl} alt="Profile photo" style={styles.previewImage} />
                     </div>
                   )}
                   <div>
                     <p style={styles.infoText}>
-                      <strong>Nombre:</strong> {user.nombre} {user.apellido} {user.apellido2}
+                      <strong>Name:</strong> {user.nombre} {user.apellido} {user.apellido2}
                     </p>
                     <p style={styles.infoText}>
                       <strong>Email:</strong> {user.email}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Edad:</strong> {user.edad}
+                      <strong>Age:</strong> {user.edad}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Teléfono:</strong> {user.telefono || 'No especificado'}
+                      <strong>Phone:</strong> {user.telefono || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Dirección:</strong> {user.direccion || 'No especificada'}
+                      <strong>Address:</strong> {user.direccion || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Ciudad:</strong> {user.ciudad || 'No especificada'}
+                      <strong>City:</strong> {user.ciudad || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Código Postal:</strong> {user.codigoPostal || 'No especificado'}
+                      <strong>Zip Code:</strong> {user.codigoPostal || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Empresa:</strong> {user.empresa || 'No especificada'}
+                      <strong>Company:</strong> {user.empresa || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Ubicación Empresa:</strong> {user.ciudadEmpresa || 'No especificada'}
+                      <strong>Company Location:</strong> {user.ciudadEmpresa || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Especialidad:</strong> {user.especialidad || 'No especificada'}
+                      <strong>Specialty:</strong> {user.especialidad || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Años de experiencia:</strong> {user.experiencia || 0}
+                      <strong>Years of experience:</strong> {user.experiencia || 0}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Biografía:</strong> {user.biografia || 'No especificada'}
+                      <strong>Biography:</strong> {user.biografia || 'Not specified'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Estado:</strong> {user.activo ? 'Activo' : 'Inactivo'}
+                      <strong>Status:</strong> {user.activo ? 'Active' : 'Inactive'}
                     </p>
                     <p style={styles.infoText}>
-                      <strong>Clientes:</strong> {user.clientes?.length || 0}
+                      <strong>Clients:</strong> {user.clientes?.length || 0}
                     </p>
                   </div>
                 </>
               ) : (
                 <>
-                  <h2 style={styles.title}>Editar Perfil</h2>
-                  
-                  {/* Foto de perfil */}
+                  <h2 style={styles.title}>Edit Profile</h2>
+
+                  {/* Profile photo */}
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Foto de perfil</label>
+                    <label style={styles.label}>Profile photo</label>
                     <input
                       type="file"
                       id="fotoPerfil"
@@ -438,17 +438,17 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                         style={styles.photoContainer}
                         onClick={() => document.getElementById('fotoPerfil')?.click()}
                       >
-                        <img src={formData.fotoPerfilUrl} alt="Vista previa" style={styles.previewImage} />
+                        <img src={formData.fotoPerfilUrl} alt="Preview" style={styles.previewImage} />
                         <div style={styles.photoEditOverlay}>
-                          Cambiar foto
+                          Change photo
                         </div>
                       </div>
                     )}
                   </div>
                   
-                  {/* Información básica */}
+                  {/* Basic information */}
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Nombre*</label>
+                    <label style={styles.label}>Name*</label>
                     <input
                       type="text"
                       name="nombre"
@@ -460,7 +460,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Primer apellido*</label>
+                    <label style={styles.label}>First surname*</label>
                     <input
                       type="text"
                       name="apellido"
@@ -472,7 +472,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Segundo apellido</label>
+                    <label style={styles.label}>Second surname</label>
                     <input
                       type="text"
                       name="apellido2"
@@ -483,7 +483,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Edad*</label>
+                    <label style={styles.label}>Age*</label>
                     <input
                       type="number"
                       name="edad"
@@ -497,7 +497,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Teléfono</label>
+                    <label style={styles.label}>Phone</label>
                     <input
                       type="tel"
                       name="telefono"
@@ -507,9 +507,9 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                     />
                   </div>
                   
-                  {/* Información de ubicación */}
+                  {/* Location information */}
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Dirección</label>
+                    <label style={styles.label}>Address</label>
                     <input
                       type="text"
                       name="direccion"
@@ -520,7 +520,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Código Postal</label>
+                    <label style={styles.label}>Zip Code</label>
                     <input
                       type="text"
                       name="codigoPostal"
@@ -531,7 +531,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Ciudad</label>
+                    <label style={styles.label}>City</label>
                     <input
                       type="text"
                       name="ciudad"
@@ -541,9 +541,9 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                     />
                   </div>
                   
-                  {/* Información profesional */}
+                  {/* Professional information */}
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Empresa</label>
+                    <label style={styles.label}>Company</label>
                     <input
                       type="text"
                       name="empresa"
@@ -554,7 +554,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Ubicación de la empresa</label>
+                    <label style={styles.label}>Company location</label>
                     <input
                       type="text"
                       name="ciudadEmpresa"
@@ -565,7 +565,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Especialidad</label>
+                    <label style={styles.label}>Specialty</label>
                     <input
                       type="text"
                       name="especialidad"
@@ -576,7 +576,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Años de experiencia</label>
+                    <label style={styles.label}>Years of experience</label>
                     <input
                       type="number"
                       name="experiencia"
@@ -589,7 +589,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                   </div>
                   
                   <div style={styles.inputGroup}>
-                    <label style={styles.label}>Biografía</label>
+                    <label style={styles.label}>Biography</label>
                     <textarea
                       name="biografia"
                       value={formData.biografia}
@@ -613,7 +613,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
                 onClick={handleSave}
                 disabled={!hasChanges || isSaving}
               >
-                {isSaving ? 'Guardando...' : 'Guardar Cambios'}
+                {isSaving ? 'Saving...' : 'Save Changes'}
               </button>
             )}
             <button 
@@ -625,7 +625,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
               onClick={() => setShowDeleteModal(true)}
               disabled={isSaving}
             >
-              Eliminar Cuenta
+              Delete Account
             </button>
             <button 
               onClick={() => setShowStatusModal(true)}
@@ -636,7 +636,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
               }}
               disabled={isSaving}
             >
-              {user.activo ? 'Desactivar' : 'Activar'}
+              {user.activo ? 'Deactivate' : 'Activate'}
             </button>
             <button 
               style={{ 
@@ -647,7 +647,7 @@ export default function ProfileModal({ isOpen, onClose }: ModalProps) {
               onClick={onClose}
               disabled={isSaving}
             >
-              Cerrar
+              Close
             </button>
           </div>
         </div>

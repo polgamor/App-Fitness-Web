@@ -71,7 +71,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     try {
       if (!auth.currentUser) {
-        throw new Error('Usuario no autenticado');
+        throw new Error('User not authenticated');
       }
 
       let q = query(
@@ -96,7 +96,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
       setDietas(dietasData);
     } catch (error) {
       console.error('Error fetching dietas:', error);
-      setError('Error al cargar dietas');
+      setError('Error loading diets');
       throw error;
     } finally {
       setLoading(false);
@@ -114,7 +114,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
       });
       return docRef.id;
     } catch (err) {
-      setError('Error al crear dieta');
+      setError('Error creating diet');
       console.error(err);
       throw err;
     } finally {
@@ -135,7 +135,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
         }
       }));
     } catch (err) {
-      setError('Error al actualizar dieta');
+      setError('Error updating diet');
       console.error(err);
       throw err;
     } finally {
@@ -169,7 +169,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
         }
       }));
     } catch (err) {
-      setError('Error al actualizar comida');
+      setError('Error updating meal');
       console.error(err);
       throw err;
     } finally {
@@ -210,7 +210,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
         }
       }));
     } catch (err) {
-      setError('Error al actualizar opción de comida');
+      setError('Error updating meal option');
       console.error(err);
       throw err;
     } finally {
@@ -229,7 +229,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
         return newDietas;
       });
     } catch (err) {
-      setError('Error al eliminar dieta');
+      setError('Error deleting diet');
       console.error(err);
       throw err;
     } finally {
@@ -259,7 +259,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
         };
       });
     } catch (err) {
-      setError('Error al eliminar comida');
+      setError('Error deleting meal');
       console.error(err);
       throw err;
     } finally {
@@ -300,7 +300,7 @@ export function DietasProvider({ children }: { children: ReactNode }) {
         };
       });
     } catch (err) {
-      setError('Error al eliminar opción de comida');
+      setError('Error deleting meal option');
       console.error(err);
       throw err;
     } finally {
@@ -329,6 +329,6 @@ export function DietasProvider({ children }: { children: ReactNode }) {
 
 export const useDietas = () => {
   const context = useContext(DietasContext);
-  if (!context) throw new Error('useDietas debe usarse dentro de DietasProvider');
+  if (!context) throw new Error('useDietas must be used within a DietasProvider');
   return context;
 };

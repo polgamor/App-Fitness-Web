@@ -103,17 +103,17 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
 
   const validateForm = (): boolean => {
     if (!formData.nombre.trim()) {
-      setError('Nombre es obligatorio');
+      setError('Name is required');
       return false;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError('Ingrese un email válido');
+      setError('Please enter a valid email address');
       return false;
     }
 
     if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
+      setError('Password must be at least 6 characters');
       return false;
     }
 
@@ -161,27 +161,27 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
   };
 
   const formatAuthError = (error: unknown): string => {
-    if (!(error instanceof Error)) return 'Error desconocido durante el registro';
-    
+    if (!(error instanceof Error)) return 'Unknown error during registration';
+
     const authError = error as AuthError;
     switch (authError.code) {
       case 'auth/email-already-in-use':
-        return 'Este correo ya está registrado';
+        return 'This email is already registered';
       case 'auth/invalid-email':
-        return 'Correo electrónico no válido';
+        return 'Invalid email address';
       case 'auth/weak-password':
-        return 'La contraseña debe tener al menos 6 caracteres';
+        return 'Password must be at least 6 characters';
       case 'auth/operation-not-allowed':
-        return 'Operación no permitida';
+        return 'Operation not allowed';
       default:
-        return 'Error al registrar. Por favor intente nuevamente.';
+        return 'Error registering. Please try again.';
     }
   };
 
   return (
     <form onSubmit={handleSubmit} style={styles.container}>
       <div style={styles.inputGroup}>
-        <label htmlFor="nombre" style={styles.label}>Nombre</label>
+        <label htmlFor="nombre" style={styles.label}>Name</label>
         <input
           id="nombre"
           type="text"
@@ -207,7 +207,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="password" style={styles.label}>Contraseña (mínimo 6 caracteres)</label>
+        <label htmlFor="password" style={styles.label}>Password (minimum 6 characters)</label>
         <input
           id="password"
           type="password"
@@ -223,7 +223,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       {error && <p style={styles.error}>{error}</p>}
       {success && (
         <p style={styles.success}>
-          ¡Registro exitoso! Por favor verifica tu correo electrónico.
+          Registration successful! Please check your email for verification.
         </p>
       )}
 
@@ -236,7 +236,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
           cursor: loading ? 'not-allowed' : 'pointer',
         }}
       >
-        {loading ? 'Registrando...' : 'Crear cuenta'}
+        {loading ? 'Creating account...' : 'Create Account'}
       </button>
     </form>
   );
