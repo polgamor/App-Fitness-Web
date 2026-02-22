@@ -1,9 +1,9 @@
-import { Cliente } from '../../context/AuthContext';
+import type { Client } from '../../context/AuthContext';
 import { useRef } from 'react';
 import { CSSProperties } from 'react';
 
 interface ClientTabsProps {
-  openClients: Cliente[];
+  openClients: Client[];
   activeClientId: string | null;
   onTabClick: (clientId: string) => void;
   onTabClose: (clientId: string) => void;
@@ -16,7 +16,7 @@ interface ExtendedCSSProperties extends React.CSSProperties {
   ':after'?: React.CSSProperties;
 }
 
-export default function ClientTabs({
+export default function ClientTabsBar({
   openClients,
   activeClientId,
   onTabClick,
@@ -25,7 +25,6 @@ export default function ClientTabs({
 }: ClientTabsProps) {
   const tabsRef = useRef<HTMLDivElement>(null);
 
-  // Estilos basados en la paleta de colores
   const styles: {
     container: CSSProperties;
     clientButton: CSSProperties;
@@ -38,12 +37,12 @@ export default function ClientTabs({
   } = {
     container: {
       display: 'flex',
-      backgroundColor: '#a3b18a', 
+      backgroundColor: '#a3b18a',
       height: '42px',
       alignItems: 'center',
       width: '100%',
       position: 'fixed',
-      top: '60px', 
+      top: '60px',
       zIndex: 40
     },
     clientButton: {
@@ -53,16 +52,13 @@ export default function ClientTabs({
       fontWeight: 500,
       display: 'flex',
       alignItems: 'center',
-      backgroundColor: activeClientId === null ? '#DAD7CD' : '#DAD7CD', 
-      color: activeClientId === null ? '#0B160C' : '#A3B18A', 
+      backgroundColor: activeClientId === null ? '#DAD7CD' : '#DAD7CD',
+      color: activeClientId === null ? '#0B160C' : '#A3B18A',
       cursor: 'pointer',
       flexShrink: 0,
       border: 'none',
       borderRadius: '15px 15px 0 0',
       transition: 'all 0.2s ease',
-      ':hover': {
-        backgroundColor: activeClientId === null ? '#588157' : 'rgba(88, 129, 87, 0.3)' 
-      }
     },
     tabsContainer: {
       display: 'flex',
@@ -70,11 +66,8 @@ export default function ClientTabs({
       height: '100%',
       overflowX: 'auto',
       alignItems: 'stretch',
-      scrollbarWidth: 'none', 
+      scrollbarWidth: 'none',
       msOverflowStyle: 'none',
-      '::-webkit-scrollbar': {
-        display: 'none' 
-      }
     },
     tab: (isActive) => ({
       display: 'flex',
@@ -84,26 +77,13 @@ export default function ClientTabs({
       cursor: 'pointer',
       minWidth: '120px',
       maxWidth: '200px',
-      backgroundColor: isActive ? '#DAD7CD' : '#DAD7CD', 
-      color: isActive ? '#0B160C' : '#A3B18A', 
+      backgroundColor: isActive ? '#DAD7CD' : '#DAD7CD',
+      color: isActive ? '#0B160C' : '#A3B18A',
       fontWeight: isActive ? 600 : 500,
       border: 'none',
       borderRadius: '12px 12px 0 0',
       position: 'relative',
       transition: 'all 0.2s ease',
-      ':hover': {
-        backgroundColor: isActive ? '#588157' : 'rgba(88, 129, 87, 0.3)' 
-      },
-      ':after': {
-        content: '""',
-        position: 'absolute',
-        right: '-4px',
-        top: '50%',
-        transform: 'translateY(-50%)',
-        width: '1px',
-        height: '16px',
-        backgroundColor: '#A3B18A' 
-      }
     }),
     tabText: {
       overflow: 'hidden',
@@ -126,32 +106,21 @@ export default function ClientTabs({
       transition: 'all 0.2s ease',
       width: '18px',
       height: '18px',
-      ':hover': {
-        backgroundColor: 'rgba(214, 90, 49, 0.1)', 
-        color: '#D65A31' 
-      }
     },
     closeButtonHover: {
       backgroundColor: 'rgba(214, 90, 49, 0.1)',
       color: '#D65A31'
     },
+    activeTabIndicator: {},
   };
 
   return (
     <div style={styles.container}>
-      {/* Botón Clientes */}
-      <button
-        onClick={onShowClientList}
-        style={styles.clientButton}
-      >
-        Clientes
+      <button onClick={onShowClientList} style={styles.clientButton}>
+        Clients
       </button>
 
-      {/* Contenedor de pestañas */}
-      <div 
-        ref={tabsRef}
-        style={styles.tabsContainer}
-      >
+      <div ref={tabsRef} style={styles.tabsContainer}>
         {openClients.map((client) => (
           <div
             key={client.id}
@@ -159,7 +128,7 @@ export default function ClientTabs({
             onClick={() => onTabClick(client.id)}
           >
             <span style={styles.tabText}>
-              {client.nombre.split(' ')[0]}
+              {client.firstName}
             </span>
             <button
               onClick={(e) => {
@@ -175,6 +144,7 @@ export default function ClientTabs({
                 e.currentTarget.style.backgroundColor = 'transparent';
                 e.currentTarget.style.color = '#A3B18A';
               }}
+              aria-label={`Close ${client.firstName}`}
             >
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

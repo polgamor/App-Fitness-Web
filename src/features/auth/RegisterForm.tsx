@@ -1,9 +1,8 @@
-import { useState, FormEvent, ChangeEvent } from 'react';
+import { useState, FormEvent, ChangeEvent, CSSProperties } from 'react';
 import { auth, db } from '../../firebase';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, sendEmailVerification, AuthError } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { CSSProperties } from 'react';
 
 interface RegisterFormProps {
   onSuccess: () => void | Promise<void>;
@@ -12,14 +11,14 @@ interface RegisterFormProps {
 interface FormData {
   email: string;
   password: string;
-  nombre: string;
+  firstName: string;
 }
 
 export default function RegisterForm({ onSuccess }: RegisterFormProps) {
   const [formData, setFormData] = useState<FormData>({
     email: '',
     password: '',
-    nombre: '',
+    firstName: ''
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,22 +33,15 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     error: CSSProperties;
     success: CSSProperties;
     submitButton: CSSProperties;
-    link: CSSProperties;
   } = {
-    container: {
-      width: '100%',
-    },
+    container: { width: '100%' },
     inputGroup: {
       marginBottom: '1.5rem',
       display: 'flex',
       flexDirection: 'column',
       gap: '0.5rem'
     },
-    label: {
-      fontSize: '0.875rem',
-      color: '#3A5A40',
-      fontWeight: 500
-    },
+    label: { fontSize: '0.875rem', color: '#3A5A40', fontWeight: 500 },
     input: {
       padding: '0.75rem',
       borderRadius: '0.5rem',
@@ -74,7 +66,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     submitButton: {
       width: '100%',
       padding: '0.9rem',
-      backgroundColor: '#D65A31',
+      backgroundColor: '#A3B18A',
       color: 'white',
       border: 'none',
       borderRadius: '0.5rem',
@@ -84,15 +76,6 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       marginTop: '0.5rem',
       transition: 'background-color 0.3s ease',
       boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
-    },
-    link: {
-      color: '#3A5A40',
-      textDecoration: 'none',
-      fontSize: '0.875rem',
-      textAlign: 'center',
-      display: 'block',
-      marginTop: '1rem',
-      transition: 'color 0.3s ease'
     }
   };
 
@@ -102,18 +85,18 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
   };
 
   const validateForm = (): boolean => {
-    if (!formData.nombre.trim()) {
-      setError('Nombre es obligatorio');
+    if (!formData.firstName.trim()) {
+      setError('First name is required');
       return false;
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      setError('Ingrese un email válido');
+      setError('Please enter a valid email address');
       return false;
     }
 
     if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
+      setError('Password must be at least 6 characters');
       return false;
     }
 
@@ -124,35 +107,34 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     e.preventDefault();
     setError('');
     setSuccess(false);
-    
+
     if (!validateForm()) return;
 
     setLoading(true);
 
     try {
-      const { email, password, nombre} = formData;
+      const { email, password, firstName } = formData;
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
+
       await sendEmailVerification(userCredential.user, {
-        url: window.location.origin + '/verificacion-exitosa', 
+        url: window.location.origin + '/verify-success',
         handleCodeInApp: true
       });
-      
+
       await setDoc(doc(db, 'entrenadores', userCredential.user.uid), {
         email,
-        nombre,
-        edad: 0, 
+        nombre: firstName,
+        edad: 0,
         activo: true,
         fechaRegistro: new Date(),
         rol: 'entrenador',
         telefono: '',
-        direccion: '',
+        direccion: ''
       });
 
       setSuccess(true);
-      navigate('/verifica-tu-email', { state: { fromRegister: true } });
+      navigate('/verify-pending', { state: { fromRegister: true } });
       await onSuccess();
-
     } catch (err) {
       setError(formatAuthError(err));
     } finally {
@@ -160,32 +142,32 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     }
   };
 
-  const formatAuthError = (error: unknown): string => {
-    if (!(error instanceof Error)) return 'Error desconocido durante el registro';
-    
-    const authError = error as AuthError;
+  const formatAuthError = (err: unknown): string => {
+    if (!(err instanceof Error)) return 'Unknown registration error';
+
+    const authError = err as AuthError;
     switch (authError.code) {
       case 'auth/email-already-in-use':
-        return 'Este correo ya está registrado';
+        return 'This email is already registered';
       case 'auth/invalid-email':
-        return 'Correo electrónico no válido';
+        return 'Invalid email address';
       case 'auth/weak-password':
-        return 'La contraseña debe tener al menos 6 caracteres';
+        return 'Password must be at least 6 characters';
       case 'auth/operation-not-allowed':
-        return 'Operación no permitida';
+        return 'Operation not allowed';
       default:
-        return 'Error al registrar. Por favor intente nuevamente.';
+        return 'Registration failed. Please try again.';
     }
   };
 
   return (
     <form onSubmit={handleSubmit} style={styles.container}>
       <div style={styles.inputGroup}>
-        <label htmlFor="nombre" style={styles.label}>Nombre</label>
+        <label htmlFor="firstName" style={styles.label}>First Name</label>
         <input
-          id="nombre"
+          id="firstName"
           type="text"
-          value={formData.nombre}
+          value={formData.firstName}
           onChange={handleChange}
           required
           disabled={loading}
@@ -207,7 +189,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       </div>
 
       <div style={styles.inputGroup}>
-        <label htmlFor="password" style={styles.label}>Contraseña (mínimo 6 caracteres)</label>
+        <label htmlFor="password" style={styles.label}>Password (minimum 6 characters)</label>
         <input
           id="password"
           type="password"
@@ -223,20 +205,19 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       {error && <p style={styles.error}>{error}</p>}
       {success && (
         <p style={styles.success}>
-          ¡Registro exitoso! Por favor verifica tu correo electrónico.
+          Registration successful! Please check your email to verify your account.
         </p>
       )}
 
-      <button 
-        type="submit" 
+      <button
+        type="submit"
         disabled={loading}
         style={{
           ...styles.submitButton,
-          backgroundColor: loading ? '#A3B18A' : '#A3B18A',
-          cursor: loading ? 'not-allowed' : 'pointer',
+          cursor: loading ? 'not-allowed' : 'pointer'
         }}
       >
-        {loading ? 'Registrando...' : 'Crear cuenta'}
+        {loading ? 'Creating account...' : 'Create Account'}
       </button>
     </form>
   );

@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LoginForm from '../../features/auth/LoginForm';
 import RegisterForm from '../../features/auth/RegisterForm';
-
-// Importamos ambas imágenes
 import loginBackground from '../../media/fotologin.jpg';
 import registerBackground from '../../media/fotoregistro.jpg';
 
@@ -18,8 +16,8 @@ const animationVariants = {
   exit: { opacity: 0, x: 30 }
 };
 
-const FIXED_MODAL_HEIGHT = '600px';
-const FIXED_MODAL_WIDTH = '900px';
+const MODAL_HEIGHT = '600px';
+const MODAL_WIDTH = '900px';
 
 const modalStyles = {
   overlay: {
@@ -27,30 +25,30 @@ const modalStyles = {
     inset: 0,
     zIndex: 100,
     overflowY: 'auto' as const,
-    fontFamily: '"ABeeZee", sans-serif',
+    fontFamily: '"ABeeZee", sans-serif'
   },
   background: {
     position: 'fixed' as const,
     inset: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    backdropFilter: 'blur(8px)',
+    backdropFilter: 'blur(8px)'
   },
   container: {
     display: 'flex',
     minHeight: '100vh',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '1rem',
+    padding: '1rem'
   },
   content: {
     position: 'relative' as const,
     backgroundColor: 'white',
     borderRadius: '1rem',
     boxShadow: '0 10px 25px rgba(0, 0, 0, 0.2)',
-    width: FIXED_MODAL_WIDTH,
-    height: FIXED_MODAL_HEIGHT,
+    width: MODAL_WIDTH,
+    height: MODAL_HEIGHT,
     display: 'flex',
-    overflow: 'hidden',
+    overflow: 'hidden'
   },
   formContainer: {
     flex: 1,
@@ -65,21 +63,18 @@ const modalStyles = {
     backgroundImage: `url(${isLogin ? loginBackground : registerBackground})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    position: 'relative' as const,
+    position: 'relative' as const
   }),
   imageOverlay: {
     position: 'absolute' as const,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    top: 0, left: 0, right: 0, bottom: 0,
     backgroundColor: 'rgba(52, 78, 65, 0.7)',
     display: 'flex',
     flexDirection: 'column' as const,
     justifyContent: 'center',
     alignItems: 'center',
     padding: '2rem',
-    color: 'white',
+    color: 'white'
   },
   title: {
     fontSize: '2rem',
@@ -131,7 +126,7 @@ const modalStyles = {
     fontWeight: 500,
     marginLeft: '0.5rem',
     textDecoration: 'underline'
-  },
+  }
 };
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
@@ -148,7 +143,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
   return (
     <div style={modalStyles.overlay}>
       <div style={modalStyles.background} onClick={onClose} />
-      
+
       <div style={modalStyles.container}>
         <motion.div
           style={modalStyles.content}
@@ -157,7 +152,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.3 }}
         >
-          <button style={modalStyles.closeButton} onClick={onClose}>
+          <button style={modalStyles.closeButton} onClick={onClose} aria-label="Close">
             ✕
           </button>
 
@@ -173,9 +168,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}
             >
               <h2 style={modalStyles.title}>
-                {isLogin ? 'Iniciar Sesión' : 'Registrarse'}
+                {isLogin ? 'Sign In' : 'Create Account'}
               </h2>
-              
+
               {isLogin ? (
                 <LoginForm onClose={onClose} />
               ) : (
@@ -183,9 +178,9 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               )}
 
               <p style={modalStyles.switchText}>
-                {isLogin ? '¿No tienes cuenta?' : '¿Ya tienes cuenta?'}
+                {isLogin ? "Don't have an account?" : 'Already have an account?'}
                 <span style={modalStyles.switchLink} onClick={handleSwitch}>
-                  {isLogin ? ' Crear cuenta' : ' Iniciar sesión'}
+                  {isLogin ? ' Create account' : ' Sign in'}
                 </span>
               </p>
             </motion.div>
@@ -199,12 +194,12 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               transition={{ duration: 0.5 }}
             >
               <h3 style={modalStyles.motivationalText}>
-                {isLogin ? 'Bienvenido de vuelta' : 'Únete a nosotros'}
+                {isLogin ? 'Welcome back' : 'Join us today'}
               </h3>
               <p style={modalStyles.subText}>
                 {isLogin
-                  ? 'Estamos emocionados de verte de nuevo'
-                  : 'Cada nuevo miembro es una nueva aventura en tu viaje fitness'}
+                  ? 'We are excited to see you again'
+                  : 'Every new member is a new chapter in your fitness journey'}
               </p>
             </motion.div>
           </div>

@@ -1,27 +1,28 @@
-import { Cliente } from '../../context/AuthContext';
+import type { Client } from '../../context/AuthContext';
 import { CSSProperties } from 'react';
+import { translateGoal } from '../../core/utils/goal.utils';
 
 interface ClientSidebarProps {
-  client: Cliente;
-  activeSection: 'rutinas' | 'dietas' | 'chat';
-  onSectionChange: (section: 'rutinas' | 'dietas'  | 'chat') => void;
+  client: Client;
+  activeSection: 'routines' | 'diets' | 'chat';
+  onSectionChange: (section: 'routines' | 'diets' | 'chat') => void;
 }
 
 const topSections = [
-  { id: 'dietas', name: 'Dietas', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
-  { id: 'rutinas', name: 'Rutinas', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+  { id: 'diets', name: 'Diets', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z' },
+  { id: 'routines', name: 'Routines', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
 ];
 
 const bottomSections = [
   { id: 'chat', name: 'Chat', icon: 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z' }
 ] as const;
 
-export default function ClientSidebar({ 
-  activeSection, 
+export default function ClientSidebar({
+  activeSection,
   onSectionChange,
   client
 }: ClientSidebarProps) {
-  const nombreCompleto = `${client.nombre} ${client.apellido}${client.apellido2 ? ' ' + client.apellido2 : ''}`;
+  const fullName = `${client.firstName} ${client.lastName}${client.secondLastName ? ' ' + client.secondLastName : ''}`;
 
   const styles: {
     sidebar: CSSProperties;
@@ -33,12 +34,12 @@ export default function ClientSidebar({
     navItem: (isActive: boolean) => CSSProperties;
     navIcon: CSSProperties;
     sectionGroup: CSSProperties;
-    nombreConIcono: CSSProperties;
+    nameWithIcon: CSSProperties;
     statusIcon: (isActive: boolean) => CSSProperties;
   } = {
     sidebar: {
       width: '18rem',
-      backgroundColor: '#DAD7CD', 
+      backgroundColor: '#DAD7CD',
       borderRight: '1px solid #0B160C',
       flexShrink: 0,
       color: '#0B160C',
@@ -96,7 +97,7 @@ export default function ClientSidebar({
     sectionGroup: {
       marginBottom: '1.5rem'
     },
-    nombreConIcono: {
+    nameWithIcon: {
       display: 'flex',
       alignItems: 'center',
       gap: '0.5rem'
@@ -106,74 +107,61 @@ export default function ClientSidebar({
       height: '1rem',
       stroke: isActive ? '#588157' : '#d65a31',
       marginLeft: '0.25rem',
-      marginTop: "0.7rem"
+      marginTop: '0.7rem'
     }),
   };
 
-  const handleNavClick = (sectionId: 'rutinas' | 'dietas' | 'chat') => {
+  const handleNavClick = (sectionId: 'routines' | 'diets' | 'chat') => {
     if (sectionId !== activeSection) {
-      onSectionChange(sectionId); 
+      onSectionChange(sectionId);
     }
   };
-
-  function traducirObjetivo(objetivo: number | string): string {
-    switch (objetivo) {
-      case 1:
-      case '1':
-        return 'Definición';
-      case 2:
-      case '2':
-        return 'Volumen';
-      default:
-        return 'Objetivo desconocido';
-    }
-  }
 
   return (
     <div style={styles.sidebar}>
       <div style={styles.sidebarContent}>
         <div style={styles.header}>
-          <div style={styles.nombreConIcono}>
-            <h3 style={styles.title}>{nombreCompleto}</h3>
-            <svg 
-              viewBox="0 0 24 24" 
-              fill="none" 
-              style={styles.statusIcon(client.activo)}
-              >
-              <path 
-                strokeWidth="5" 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                d={client.activo ? "M5 13l4 4L19 7" : "M6 6l12 12M6 18L18 6"} 
+          <div style={styles.nameWithIcon}>
+            <h3 style={styles.title}>{fullName}</h3>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              style={styles.statusIcon(client.isActive)}
+            >
+              <path
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d={client.isActive ? 'M5 13l4 4L19 7' : 'M6 6l12 12M6 18L18 6'}
               />
             </svg>
           </div>
           <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>
-            Objetivo: {traducirObjetivo(client.objetivo)}
+            Goal: {translateGoal(client.goal)}
           </p>
-          <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>{client.altura} cm</p>
-          <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>{client.peso} kg</p>
+          <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>{client.height} cm</p>
+          <p style={{ ...styles.subtitle, marginTop: '0.25rem' }}>{client.weight} kg</p>
         </div>
-        {/* Grupo superior - Dietas, Rutinas, Suplementos */}
+
         <div style={styles.sectionGroup}>
           <nav style={styles.nav}>
             {topSections.map((section) => (
               <button
                 key={section.id}
-                onClick={() => handleNavClick(section.id as 'rutinas' | 'dietas' )}
+                onClick={() => handleNavClick(section.id as 'routines' | 'diets')}
                 style={styles.navItem(activeSection === section.id)}
               >
-                <svg 
+                <svg
                   style={styles.navIcon}
-                  viewBox="0 0 24 24" 
-                  fill="none" 
+                  viewBox="0 0 24 24"
+                  fill="none"
                   stroke="currentColor"
                 >
-                  <path 
-                    strokeWidth="2" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    d={section.icon} 
+                  <path
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d={section.icon}
                   />
                 </svg>
                 {section.name}
@@ -182,8 +170,7 @@ export default function ClientSidebar({
           </nav>
         </div>
       </div>
-      
-      {/* Grupo inferior - Chat */}
+
       <div style={{ ...styles.sidebarContent, borderTop: '1px solid #0B160C', paddingTop: '1.5rem' }}>
         <nav style={styles.nav}>
           {bottomSections.map((section) => (
@@ -193,18 +180,18 @@ export default function ClientSidebar({
               style={styles.navItem(activeSection === section.id)}
               aria-label={section.name}
             >
-              <svg 
+              <svg
                 style={styles.navIcon}
-                viewBox="0 0 24 24" 
-                fill="none" 
+                viewBox="0 0 24 24"
+                fill="none"
                 stroke="currentColor"
                 aria-hidden="true"
               >
-                <path 
-                  strokeWidth="2" 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  d={section.icon} 
+                <path
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d={section.icon}
                 />
               </svg>
               {section.name}

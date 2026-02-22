@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import { CSSProperties } from 'react';
-import { Cliente, useAuth } from '../../context/AuthContext';
-import { db } from '../../firebase';
+import { useAuth } from '../../context/AuthContext';
+import { db } from '../../config/firebase.config';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
-interface AddClientCardProps {
-  client: Cliente;
-}
-
-export default function AddClientCard({}: AddClientCardProps) {
+export default function AddClientCard() {
   const [isHovered, setIsHovered] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -18,10 +14,10 @@ export default function AddClientCard({}: AddClientCardProps) {
   const [token, setToken] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const { user: currentUser } = useAuth();
-  const isEntrenadorActivo = currentUser?.activo;
+  const isTrainerActive = currentUser?.isActive;
   const isActive = true;
 
-  const generarToken = async () => {
+  const generateToken = async () => {
     if (!currentUser) return;
 
     setIsGenerating(true);
@@ -38,53 +34,53 @@ export default function AddClientCard({}: AddClientCardProps) {
 
       setToken(tokenId);
       await navigator.clipboard.writeText(tokenId);
-      showFeedbackMessage('Token generado y copiado al portapapeles', false);
+      showFeedbackMessage('Token generated and copied to clipboard', false);
     } catch (error) {
-      showFeedbackMessage('Error al generar el token', true);
+      showFeedbackMessage('Failed to generate token', true);
     }
     setIsGenerating(false);
   };
 
-  const showFeedbackMessage = (message: string, isError: boolean) => {
+  const showFeedbackMessage = (message: string, error: boolean) => {
     setFeedbackMessage(message);
-    setIsError(isError);
+    setIsError(error);
     setShowFeedback(true);
     setTimeout(() => setShowFeedback(false), 3000);
   };
 
   const styles: { [key: string]: CSSProperties } = {
     card: {
-      cursor: isEntrenadorActivo && isActive ? 'pointer' : 'not-allowed',
+      cursor: isTrainerActive && isActive ? 'pointer' : 'not-allowed',
       padding: '1.5rem',
       borderRadius: '0.75rem',
       height: '11rem',
-      backgroundColor: isEntrenadorActivo && isActive && isHovered ? '#A3B18A' : '#DAD7CD',
-      color: isEntrenadorActivo ? (isHovered ? 'white' : '#0B160C') : '#6B7280',
+      backgroundColor: isTrainerActive && isActive && isHovered ? '#A3B18A' : '#DAD7CD',
+      color: isTrainerActive ? (isHovered ? 'white' : '#0B160C') : '#6B7280',
       boxShadow: isHovered ? '0 4px 8px rgba(0, 0, 0, 0.15)' : '0 2px 4px rgba(0, 0, 0, 0.1)',
       transition: 'all 0.3s ease',
       border: `2px dashed ${
-        isEntrenadorActivo && isActive ? (isHovered ? 'white' : '#A3B18A') : '#D1D5DB'
+        isTrainerActive && isActive ? (isHovered ? 'white' : '#A3B18A') : '#D1D5DB'
       }`,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '180px',
-      opacity: isEntrenadorActivo && isActive ? 1 : 0.6,
+      opacity: isTrainerActive && isActive ? 1 : 0.6,
       position: 'relative',
       overflow: 'hidden',
     },
     icon: {
       fontSize: '2.5rem',
       marginBottom: '1rem',
-      color: isEntrenadorActivo ? 'inherit' : '#9CA3AF',
+      color: isTrainerActive ? 'inherit' : '#9CA3AF',
     },
     text: {
       fontSize: '1.1rem',
       fontWeight: 500,
       textAlign: 'center',
       fontFamily: '"ABeeZee", sans-serif',
-      color: isEntrenadorActivo ? 'inherit' : '#9CA3AF',
+      color: isTrainerActive ? 'inherit' : '#9CA3AF',
     },
     overlay: {
       position: 'fixed',
@@ -181,11 +177,11 @@ export default function AddClientCard({}: AddClientCardProps) {
   };
 
   const handleOpenDialog = () => {
-    if (currentUser?.activo && isActive) {
+    if (currentUser?.isActive && isActive) {
       setShowDialog(true);
       setToken(null);
     } else {
-      showFeedbackMessage('Tu cuenta está inactiva. No puedes agregar clientes.', true);
+      showFeedbackMessage('Your account is inactive. You cannot add clients.', true);
     }
   };
 
@@ -194,13 +190,13 @@ export default function AddClientCard({}: AddClientCardProps) {
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={isEntrenadorActivo && isActive ? handleOpenDialog : undefined}
+        onClick={isTrainerActive && isActive ? handleOpenDialog : undefined}
         style={styles.card}
-        title={isEntrenadorActivo ? "Agregar nuevo cliente" : "Cuenta inactiva"}
+        title={isTrainerActive ? 'Add new client' : 'Account inactive'}
       >
-        {(!isEntrenadorActivo || !isActive) && (
+        {(!isTrainerActive || !isActive) && (
           <div style={styles.inactiveOverlay}>
-            {isEntrenadorActivo ? 'Usuario Inactivo' : 'Cuenta Inactiva'}
+            {isTrainerActive ? 'Inactive User' : 'Account Inactive'}
           </div>
         )}
         <div style={styles.icon}>
@@ -208,33 +204,33 @@ export default function AddClientCard({}: AddClientCardProps) {
             <path strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
         </div>
-        <p style={styles.text}>Agregar nuevo cliente</p>
+        <p style={styles.text}>Add new client</p>
       </div>
 
       {showDialog && currentUser && (
         <div style={styles.overlay} onClick={() => setShowDialog(false)}>
           <div style={styles.dialogContent} onClick={(e) => e.stopPropagation()}>
-            <h2 style={styles.title}>Token para cliente</h2>
+            <h2 style={styles.title}>Client Token</h2>
             <p style={{ textAlign: 'center', fontFamily: '"ABeeZee", sans-serif' }}>
-              Genera un token temporal y compártelo con tu cliente.
+              Generate a temporary token and share it with your client.
             </p>
 
             <div
               style={styles.idBox}
               onClick={token ? () => navigator.clipboard.writeText(token) : undefined}
             >
-              {token ?? 'Token no generado aún'}
+              {token ?? 'Token not generated yet'}
             </div>
 
-            <button style={styles.button} onClick={generarToken} disabled={isGenerating}>
-              {isGenerating ? 'Generando...' : 'Generar Token'}
+            <button style={styles.button} onClick={generateToken} disabled={isGenerating}>
+              {isGenerating ? 'Generating...' : 'Generate Token'}
             </button>
 
             <button
               onClick={() => setShowDialog(false)}
               style={{ ...styles.button, backgroundColor: '#6B705C', marginTop: '1rem' }}
             >
-              Cerrar
+              Close
             </button>
           </div>
         </div>
