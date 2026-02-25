@@ -15,7 +15,6 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           
           {/* Email verification routes */}
-          <Route path="/verify-email-handler" element={<VerificationHandler />} />
           <Route path="/verify-handler" element={<VerificationHandler />} />
           <Route path="/verify-pending" element={<EmailVerificationModal />} />
           <Route path="/verify-success" element={<EmailVerifiedModal />} />

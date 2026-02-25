@@ -5,7 +5,7 @@ import {
   deleteField,
   Timestamp
 } from 'firebase/firestore';
-import { db, auth } from '../firebase';
+import { db, auth } from '../config/firebase.config';
 import type { Diet, Meal, MealOption } from '../core/types/diet.types';
 
 export type { Diet, Meal, MealOption };

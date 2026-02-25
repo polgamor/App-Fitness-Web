@@ -1,4 +1,4 @@
-import { initializeApp, deleteApp } from 'firebase/app';
+import { initializeApp } from 'firebase/app';
 import { getFirestore, writeBatch } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import {
@@ -25,27 +25,14 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
-const initializeFirebase = () => {
-  try {
-    const oldApp = initializeApp({}, 'oldApp');
-    deleteApp(oldApp);
-  } catch {
-    // No previous instances to clean up
-  }
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-
-  setPersistence(auth, browserLocalPersistence).catch((error) => {
-    console.error('Failed to configure auth persistence:', error);
-  });
-
-  return { app, auth, db, storage };
-};
-
-const { app, auth, db, storage } = initializeFirebase();
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.error('Failed to configure auth persistence:', error);
+});
 
 export {
   auth,

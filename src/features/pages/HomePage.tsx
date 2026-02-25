@@ -230,17 +230,10 @@ export default function HomePage() {
           <h2 style={styles.sectionTitle}>Our Impact</h2>
           <div style={styles.statsContainer}>
             {[
-<<<<<<< HEAD
-              { number: "10K+", label: "Active Users" },
-              { number: "95%", label: "Satisfaction" },
-              { number: "50+", label: "Trainers" },
-              { number: "1M+", label: "Exercises Completed" }
-=======
               { number: '10K+', label: 'Active users' },
               { number: '95%', label: 'Satisfaction rate' },
               { number: '50+', label: 'Certified trainers' },
               { number: '1M+', label: 'Workouts completed' }
->>>>>>> 7cbf2362dc83dd119d6ad13f09bc2cdb03a26e2b
             ].map((stat, index) => (
               <div key={index} style={styles.statItem}>
                 <div style={styles.statNumber}>{stat.number}</div>
@@ -256,17 +249,10 @@ export default function HomePage() {
           <div style={styles.testimonialCard}>
             <p style={styles.testimonialText}>
               "APPFIT completely changed my approach to fitness. In just 3 months I achieved
-<<<<<<< HEAD
-              results I hadn't managed in years of conventional training.
-              The personalized routines and detailed tracking make all the difference."
-            </p>
-            <p style={styles.testimonialAuthor}>- Carlos M., Lost 12kg</p>
-=======
               results I hadn't managed in years of conventional training. The personalised
               routines and detailed tracking make all the difference."
             </p>
             <p style={styles.testimonialAuthor}>— Carlos M., lost 12 kg</p>
->>>>>>> 7cbf2362dc83dd119d6ad13f09bc2cdb03a26e2b
           </div>
         </section>
 
@@ -274,23 +260,14 @@ export default function HomePage() {
         <section style={styles.ctaSection}>
           <h2 style={styles.ctaTitle}>READY TO TRANSFORM YOUR LIFE?</h2>
           <p style={styles.ctaText}>
-<<<<<<< HEAD
-            Join thousands of people already achieving their fitness goals with our platform.
-            Get immediate access to all features with our 7-day free trial.
-=======
             Join thousands of people already reaching their fitness goals with our platform.
             Get instant access to all features with our free 7-day trial.
->>>>>>> 7cbf2362dc83dd119d6ad13f09bc2cdb03a26e2b
           </p>
           <button
             style={styles.ctaButton}
             onClick={() => setIsModalOpen(true)}
-<<<<<<< HEAD
-            aria-label="Open user menu">
-=======
             aria-label="Open sign-in menu"
           >
->>>>>>> 7cbf2362dc83dd119d6ad13f09bc2cdb03a26e2b
             Get Started
           </button>
           <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />

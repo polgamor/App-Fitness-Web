@@ -10,7 +10,7 @@ export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return <div>Loading...</div>;
   }
 
   return user ? <>{children}</> : <Navigate to="/" replace />;

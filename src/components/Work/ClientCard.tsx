@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import type { Client } from '../../context/AuthContext';
 import { useAuth } from '../../context/AuthContext';
-import { CSSProperties } from 'react';
 
 interface ClientCardProps {
   client: Client;
@@ -136,7 +135,6 @@ export default function ClientCard({ client, onClick }: ClientCardProps) {
         <h3 style={styles.fullName}>
           {client.firstName} {client.lastName} {client.secondLastName || ''}
         </h3>
-<<<<<<< HEAD
         <span style={styles.statusBadge}>{isActive ? 'Active' : 'Inactive'}</span>
       </div>
 

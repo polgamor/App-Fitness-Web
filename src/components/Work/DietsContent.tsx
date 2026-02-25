@@ -208,8 +208,8 @@ export default function DietsContent({ client }: DietsContentProps) {
         {clientDiets.length === 0 ? (
           <p style={styles.emptyState}>No diets assigned</p>
         ) : (
-          clientDiets.map((diet: any, index: number) => (
-            <div key={index} style={styles.card}>
+          clientDiets.map((diet: any) => (
+            <div key={diet.id} style={styles.card}>
               <div style={{
                 ...styles.cardHeader,
                 backgroundColor: diet.isActive ? '#588157' : '#999999'

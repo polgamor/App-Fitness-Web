@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { CSSProperties } from 'react';
+import { useState, CSSProperties } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { db } from '../../config/firebase.config';
 import { doc, setDoc, Timestamp } from 'firebase/firestore';
@@ -15,7 +14,6 @@ export default function AddClientCard() {
   const [isGenerating, setIsGenerating] = useState(false);
   const { user: currentUser } = useAuth();
   const isTrainerActive = currentUser?.isActive;
-  const isActive = true;
 
   const generateToken = async () => {
     if (!currentUser) return;
@@ -50,23 +48,23 @@ export default function AddClientCard() {
 
   const styles: { [key: string]: CSSProperties } = {
     card: {
-      cursor: isTrainerActive && isActive ? 'pointer' : 'not-allowed',
+      cursor: isTrainerActive ? 'pointer' : 'not-allowed',
       padding: '1.5rem',
       borderRadius: '0.75rem',
       height: '11rem',
-      backgroundColor: isTrainerActive && isActive && isHovered ? '#A3B18A' : '#DAD7CD',
+      backgroundColor: isTrainerActive && isHovered ? '#A3B18A' : '#DAD7CD',
       color: isTrainerActive ? (isHovered ? 'white' : '#0B160C') : '#6B7280',
       boxShadow: isHovered ? '0 4px 8px rgba(0, 0, 0, 0.15)' : '0 2px 4px rgba(0, 0, 0, 0.1)',
       transition: 'all 0.3s ease',
       border: `2px dashed ${
-        isTrainerActive && isActive ? (isHovered ? 'white' : '#A3B18A') : '#D1D5DB'
+        isTrainerActive ? (isHovered ? 'white' : '#A3B18A') : '#D1D5DB'
       }`,
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '180px',
-      opacity: isTrainerActive && isActive ? 1 : 0.6,
+      opacity: isTrainerActive ? 1 : 0.6,
       position: 'relative',
       overflow: 'hidden',
     },
@@ -177,7 +175,7 @@ export default function AddClientCard() {
   };
 
   const handleOpenDialog = () => {
-    if (currentUser?.isActive && isActive) {
+    if (currentUser?.isActive) {
       setShowDialog(true);
       setToken(null);
     } else {
@@ -190,11 +188,11 @@ export default function AddClientCard() {
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={isTrainerActive && isActive ? handleOpenDialog : undefined}
+        onClick={isTrainerActive ? handleOpenDialog : undefined}
         style={styles.card}
         title={isTrainerActive ? 'Add new client' : 'Account inactive'}
       >
-        {(!isTrainerActive || !isActive) && (
+        {!isTrainerActive && (
           <div style={styles.inactiveOverlay}>
             {isTrainerActive ? 'Inactive User' : 'Account Inactive'}
           </div>
