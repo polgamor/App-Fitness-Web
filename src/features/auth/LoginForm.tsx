@@ -1,14 +1,56 @@
 import { useState, useEffect, FormEvent, ChangeEvent, CSSProperties } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { auth, signOut } from '../../firebase';
+import { auth, signOut } from '../../config/firebase.config';
 import { AuthError } from 'firebase/auth';
 
-interface LoginFormProps {
-  onClose?: () => void;
-}
+const FORM_STYLES: {
+  container: CSSProperties;
+  inputGroup: CSSProperties;
+  label: CSSProperties;
+  input: CSSProperties;
+  error: CSSProperties;
+  submitButton: CSSProperties;
+} = {
+  container: { width: '100%' },
+  inputGroup: {
+    marginBottom: '1.5rem',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem'
+  },
+  label: { fontSize: '0.875rem', color: '#3A5A40', fontWeight: 500 },
+  input: {
+    padding: '0.75rem',
+    borderRadius: '0.5rem',
+    border: '1px solid #A3B18A',
+    backgroundColor: 'white',
+    fontSize: '1rem',
+    color: '#344E41',
+    transition: 'border-color 0.3s ease'
+  },
+  error: {
+    color: '#D65A31',
+    fontSize: '0.875rem',
+    marginBottom: '1rem',
+    textAlign: 'center'
+  },
+  submitButton: {
+    width: '100%',
+    padding: '0.9rem',
+    backgroundColor: '#A3B18A',
+    color: 'white',
+    border: 'none',
+    borderRadius: '0.5rem',
+    fontWeight: 500,
+    fontSize: '1rem',
+    marginTop: '0.5rem',
+    transition: 'background-color 0.3s ease',
+    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
+  }
+};
 
-export default function LoginForm({}: LoginFormProps) {
+export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -19,7 +61,6 @@ export default function LoginForm({}: LoginFormProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Mostrar modal solo si se vino con estado correcto
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const verifiedSuccess = params.get('verified') === 'success';
@@ -28,7 +69,7 @@ export default function LoginForm({}: LoginFormProps) {
     if (verifiedSuccess && cameFromEmail) {
       setShowVerifiedModal(true);
     } else if (verifiedSuccess && !cameFromEmail) {
-      navigate('/login', { replace: true }); // evitar acceso manual
+      navigate('/login', { replace: true });
     }
   }, [location, navigate]);
 
@@ -37,66 +78,25 @@ export default function LoginForm({}: LoginFormProps) {
     navigate('/login', { replace: true });
   };
 
-  const styles: {
-    container: CSSProperties;
-    inputGroup: CSSProperties;
-    label: CSSProperties;
-    input: CSSProperties;
-    error: CSSProperties;
-    submitButton: CSSProperties;
-    link: CSSProperties;
-  } = {
-    container: {
-      width: '100%',
-    },
-    inputGroup: {
-      marginBottom: '1.5rem',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0.5rem'
-    },
-    label: {
-      fontSize: '0.875rem',
-      color: '#3A5A40',
-      fontWeight: 500
-    },
-    input: {
-      padding: '0.75rem',
-      borderRadius: '0.5rem',
-      border: '1px solid #A3B18A',
-      backgroundColor: 'white',
-      fontSize: '1rem',
-      color: '#344E41',
-      transition: 'border-color 0.3s ease'
-    },
-    error: {
-      color: '#D65A31',
-      fontSize: '0.875rem',
-      marginBottom: '1rem',
-      textAlign: 'center'
-    },
-    submitButton: {
-      width: '100%',
-      padding: '0.9rem',
-      backgroundColor: '#D65A31',
-      color: 'white',
-      border: 'none',
-      borderRadius: '0.5rem',
-      cursor: 'pointer',
-      fontWeight: 500,
-      fontSize: '1rem',
-      marginTop: '0.5rem',
-      transition: 'background-color 0.3s ease',
-      boxShadow: '0 4px 15px rgba(0, 0, 0, 0.3)'
-    },
-    link: {
-      color: '#3A5A40',
-      textDecoration: 'none',
-      fontSize: '0.875rem',
-      textAlign: 'center',
-      display: 'block',
-      marginTop: '1rem',
-      transition: 'color 0.3s ease'
+  const formatAuthError = (err: unknown): string => {
+    if (!(err instanceof Error)) return 'Unknown sign-in error';
+
+    const authError = err as AuthError;
+    switch (authError.code) {
+      case 'auth/user-not-found':
+        return 'No account found with this email';
+      case 'auth/wrong-password':
+        return 'Incorrect password';
+      case 'auth/too-many-requests':
+        return 'Too many failed attempts. Please try again later.';
+      case 'auth/invalid-email':
+        return 'Invalid email address';
+      case 'auth/unverified-email':
+        return 'Email not verified';
+      case 'auth/role-not-allowed':
+        return 'You do not have permission to access this platform';
+      default:
+        return 'Sign-in failed. Please try again.';
     }
   };
 
@@ -121,7 +121,7 @@ export default function LoginForm({}: LoginFormProps) {
       const { currentUser } = auth;
 
       if (currentUser && !currentUser.emailVerified) {
-        setError('Please verify your email before signing in');
+        setError('Please verify your email address before signing in');
         await signOut(auth);
         return;
       }
@@ -132,28 +132,6 @@ export default function LoginForm({}: LoginFormProps) {
       setError(formatAuthError(err));
     } finally {
       setLoading(false);
-    }
-  };
-
-  const formatAuthError = (error: unknown): string => {
-    if (!(error instanceof Error)) return 'Unknown error signing in';
-
-    const authError = error as AuthError;
-    switch (authError.code) {
-      case 'auth/user-not-found':
-        return 'User not registered';
-      case 'auth/wrong-password':
-        return 'Incorrect password';
-      case 'auth/too-many-requests':
-        return 'Too many failed attempts. Please try again later.';
-      case 'auth/invalid-email':
-        return 'Invalid email address';
-      case 'auth/unverified-email':
-        return 'Email not verified';
-      case 'auth/role-not-allowed':
-        return 'You do not have permission to access this platform';
-      default:
-        return 'Error signing in. Please try again.';
     }
   };
 
@@ -168,7 +146,7 @@ export default function LoginForm({}: LoginFormProps) {
           justifyContent: 'center',
           alignItems: 'center',
           zIndex: 1000,
-          backdropFilter: 'blur(6px)',
+          backdropFilter: 'blur(6px)'
         }}>
           <div style={{
             backgroundColor: '#DAD7CD',
@@ -177,7 +155,7 @@ export default function LoginForm({}: LoginFormProps) {
             width: '90%',
             maxWidth: '500px',
             boxShadow: '0 10px 25px rgba(0, 0, 0, 0.3)',
-            textAlign: 'center',
+            textAlign: 'center'
           }}>
             <h2 style={{
               fontSize: '1.75rem',
@@ -185,7 +163,7 @@ export default function LoginForm({}: LoginFormProps) {
               color: '#344E41',
               fontFamily: '"Bebas Neue", sans-serif',
               marginBottom: '1rem',
-              textTransform: 'uppercase',
+              textTransform: 'uppercase'
             }}>
               Email Verified!
             </h2>
@@ -193,9 +171,9 @@ export default function LoginForm({}: LoginFormProps) {
               fontSize: '1rem',
               color: '#3A5A40',
               fontFamily: '"ABeeZee", sans-serif',
-              marginBottom: '1.5rem',
+              marginBottom: '1.5rem'
             }}>
-              Your email address has been successfully verified. You can now sign in.
+              Your email address has been verified. You can now sign in.
             </p>
             <button onClick={handleCloseModal} style={{
               backgroundColor: '#3A5A40',
@@ -206,31 +184,31 @@ export default function LoginForm({}: LoginFormProps) {
               cursor: 'pointer',
               fontFamily: '"ABeeZee", sans-serif',
               fontSize: '1rem',
-              fontWeight: 500,
+              fontWeight: 500
             }}>
-              Accept
+              Continue
             </button>
           </div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} style={styles.container}>
-        <div style={styles.inputGroup}>
-          <label htmlFor="email" style={styles.label}>Email</label>
+      <form onSubmit={handleSubmit} style={FORM_STYLES.container}>
+        <div style={FORM_STYLES.inputGroup}>
+          <label htmlFor="email" style={FORM_STYLES.label}>Email</label>
           <input
             id="email"
             type="email"
-            placeholder="Email"
+            placeholder="Email address"
             value={email}
             onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
             required
             disabled={loading}
-            style={styles.input}
+            style={FORM_STYLES.input}
           />
         </div>
 
-        <div style={styles.inputGroup}>
-          <label htmlFor="password" style={styles.label}>Password</label>
+        <div style={FORM_STYLES.inputGroup}>
+          <label htmlFor="password" style={FORM_STYLES.label}>Password</label>
           <input
             id="password"
             type="password"
@@ -239,22 +217,18 @@ export default function LoginForm({}: LoginFormProps) {
             onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
             required
             disabled={loading}
-            style={styles.input}
+            style={FORM_STYLES.input}
           />
         </div>
 
-        {error && <p style={styles.error}>{error}</p>}
+        {error && <p style={FORM_STYLES.error}>{error}</p>}
 
         <button
           type="submit"
           disabled={loading}
-          style={{
-            ...styles.submitButton,
-            backgroundColor: loading ? '#A3B18A' : '#A3B18A',
-            cursor: loading ? 'not-allowed' : 'pointer',
-          }}
+          style={{ ...FORM_STYLES.submitButton, cursor: loading ? 'not-allowed' : 'pointer' }}
         >
-          {loading ? 'Signing in...' : 'Sign in'}
+          {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
     </>

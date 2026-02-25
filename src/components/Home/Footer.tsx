@@ -1,7 +1,6 @@
 import { CSSProperties } from 'react';
 
 export default function Footer() {
-  // Definimos los estilos con tipos explícitos
   const styles: {
     footer: CSSProperties;
     container: CSSProperties;
@@ -12,8 +11,6 @@ export default function Footer() {
     columnTitle: CSSProperties;
     linkList: CSSProperties;
     linkItem: CSSProperties;
-    socialLinks: CSSProperties;
-    socialIcon: CSSProperties;
     copyright: CSSProperties;
   } = {
     footer: {
@@ -73,36 +70,14 @@ export default function Footer() {
     linkItem: {
       color: '#DAD7CD',
       textDecoration: 'none',
-      transition: 'color 0.3s ease',
-      ':hover': {
-        color: '#D65A31'
-      }
-    } as CSSProperties,
-    socialLinks: {
-      display: 'flex',
-      gap: '1rem',
-      marginTop: '1.5rem'
-    },
-    socialIcon: {
-      width: '40px',
-      height: '40px',
-      borderRadius: '50%',
-      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      transition: 'all 0.3s ease',
-      ':hover': {
-        backgroundColor: '#D65A31',
-        transform: 'translateY(-3px)'
-      }
+      transition: 'color 0.3s ease'
     } as CSSProperties,
     copyright: {
       textAlign: 'center',
       paddingTop: '2rem',
       opacity: 0.7,
       fontSize: '0.9rem',
-      paddingBottom: '2rem',
+      paddingBottom: '2rem'
     }
   };
 
@@ -110,21 +85,15 @@ export default function Footer() {
     <footer style={styles.footer}>
       <div style={{ ...styles.container, padding: '4rem 0 2rem' }}>
         <div style={styles.logoContainer}>
-          <img 
-            src="/logo-appfit.jpg" 
-            alt="APPFIT Logo" 
-            style={styles.logo}
-          />
+          <img src="/logo-appfit.jpg" alt="APPFIT Logo" style={styles.logo} />
           <h3 style={styles.logoText}>APPFIT</h3>
-          <p style={styles.slogan}>
-            Transforming lives through fitness since 2023
-          </p>
+          <p style={styles.slogan}>Transforming lives through fitness since 2023</p>
         </div>
 
         <div>
           <h4 style={styles.columnTitle}>Quick Links</h4>
           <ul style={styles.linkList}>
-            {['Home', 'Features', 'Pricing', 'Testimonials', 'Blog'].map((item) => (
+            {['Home', 'Features', 'Pricing', 'Testimonials', 'Blog'].map(item => (
               <li key={item}>
                 <a href="#" style={styles.linkItem}>{item}</a>
               </li>
@@ -135,7 +104,7 @@ export default function Footer() {
         <div>
           <h4 style={styles.columnTitle}>Legal</h4>
           <ul style={styles.linkList}>
-            {['Terms of Service', 'Privacy Policy', 'Cookies', 'FAQ'].map((item) => (
+            {['Terms of Service', 'Privacy Policy', 'Cookies', 'FAQ'].map(item => (
               <li key={item}>
                 <a href="#" style={styles.linkItem}>{item}</a>
               </li>
@@ -148,8 +117,8 @@ export default function Footer() {
           <ul style={styles.linkList}>
             <li>info@appfit.com</li>
             <li>+34 123 456 789</li>
-            <li>Calle Fitness, 123</li>
-            <li>Madrid, España</li>
+            <li>Fitness Street, 123</li>
+            <li>Barcelona, Spain</li>
           </ul>
         </div>
       </div>

@@ -1,27 +1,25 @@
-import { useState } from 'react';
+import { useState, CSSProperties } from 'react';
 import { FiUser } from 'react-icons/fi';
 import AuthModal from './AuthModal';
-import { CSSProperties } from 'react';
 
-export default function Navbar() {
+export default function HomeNavbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
-  // Definimos los estilos base
   const styles: {
     header: CSSProperties;
     logoContainer: CSSProperties;
     logoText: CSSProperties;
     loginButton: CSSProperties;
-    userIcon: (isHovered: boolean) => CSSProperties;
+    userIcon: (hovered: boolean) => CSSProperties;
   } = {
     header: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      backgroundColor: '#A3B18A', 
+      backgroundColor: '#A3B18A',
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
-      position: 'fixed', 
+      position: 'fixed',
       top: 0,
       left: 0,
       right: 0,
@@ -38,7 +36,7 @@ export default function Navbar() {
     logoText: {
       fontSize: '1.5rem',
       fontWeight: 400,
-      color: '#344E41', 
+      color: '#344E41',
       fontFamily: '"Bebas Neue", sans-serif',
       letterSpacing: '1px'
     },
@@ -54,11 +52,11 @@ export default function Navbar() {
       width: '40px',
       height: '40px',
       borderRadius: '50%',
-      transition: 'all 0.3s ease',
+      transition: 'all 0.3s ease'
     },
-    userIcon: (isHovered: boolean) => ({
-      color: isHovered ? '#DAD7CD' : '#344E41',
-      transition: 'color 0.3s ease',
+    userIcon: (hovered: boolean) => ({
+      color: hovered ? '#DAD7CD' : '#344E41',
+      transition: 'color 0.3s ease'
     })
   };
 
@@ -68,7 +66,7 @@ export default function Navbar() {
         <div style={styles.logoContainer}>
           <h1 style={styles.logoText}>APPFIT</h1>
         </div>
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
           style={styles.loginButton}
           aria-label="Open user menu"
@@ -79,7 +77,6 @@ export default function Navbar() {
         </button>
         <AuthModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </header>
-      {/* Espacio para evitar que el contenido quede detrás del navbar */}
       <div style={{ height: '60px' }} />
     </>
   );

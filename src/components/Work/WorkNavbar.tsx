@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import { useState, CSSProperties } from 'react';
 import { FiUser, FiLogOut } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ProfileModal from '../Modals/ProfileModal';
-import { CSSProperties } from 'react';
 
 export default function WorkNavbar() {
   const { logout } = useAuth();
@@ -11,17 +10,12 @@ export default function WorkNavbar() {
   const [isProfileHovered, setIsProfileHovered] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
 
-  const handleLogout = () => logout();
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
   const styles: {
     header: CSSProperties;
     logoContainer: CSSProperties;
     logoText: CSSProperties;
     navContainer: CSSProperties;
-    navButton: (isHovered: boolean) => CSSProperties;
-    iconButton: CSSProperties;
+    navButton: (hovered: boolean) => CSSProperties;
   } = {
     header: {
       display: 'flex',
@@ -52,11 +46,11 @@ export default function WorkNavbar() {
     },
     navContainer: {
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'center'
     },
-    navButton: (isHovered: boolean) => ({
+    navButton: (hovered: boolean) => ({
       backgroundColor: 'transparent',
-      color: isHovered ? '#D65A31' : '#344E41',
+      color: hovered ? '#D65A31' : '#344E41',
       border: 'none',
       cursor: 'pointer',
       fontSize: '0.9rem',
@@ -68,21 +62,7 @@ export default function WorkNavbar() {
       borderRadius: '4px',
       transition: 'all 0.3s ease',
       textDecoration: 'none'
-    }),
-    iconButton: {
-      backgroundColor: 'transparent',
-      color: '#344E41',
-      border: 'none',
-      cursor: 'pointer',
-      fontSize: '2rem',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: '50px',
-      height: '50px',
-      borderRadius: '50%',
-      transition: 'all 0.3s ease'
-    }
+    })
   };
 
   return (
@@ -91,32 +71,31 @@ export default function WorkNavbar() {
         <div style={styles.logoContainer}>
           <h1 style={styles.logoText}>Trainer Dashboard</h1>
         </div>
-        
+
         <div style={styles.navContainer}>
-          <button 
-            onClick={openModal}
+          <button
+            onClick={() => setIsModalOpen(true)}
             style={styles.navButton(isProfileHovered)}
             onMouseEnter={() => setIsProfileHovered(true)}
             onMouseLeave={() => setIsProfileHovered(false)}
+            aria-label="Open profile"
           >
             <FiUser style={{ fontSize: '1.5rem' }} />
           </button>
-          
-          <Link 
-            to="/" 
-            onClick={handleLogout}
+
+          <Link
+            to="/"
+            onClick={logout}
             style={styles.navButton(isLogoutHovered)}
             onMouseEnter={() => setIsLogoutHovered(true)}
             onMouseLeave={() => setIsLogoutHovered(false)}
+            aria-label="Sign out"
           >
             <FiLogOut style={{ fontSize: '1.5rem' }} />
           </Link>
         </div>
 
-        <ProfileModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-        />
+        <ProfileModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </header>
       <div style={{ height: '60px' }} />
     </>
