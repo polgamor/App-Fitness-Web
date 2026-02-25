@@ -230,17 +230,10 @@ export default function HomePage() {
           <h2 style={styles.sectionTitle}>Our Impact</h2>
           <div style={styles.statsContainer}>
             {[
-<<<<<<< HEAD
-              { number: "10K+", label: "Active Users" },
-              { number: "95%", label: "Satisfaction" },
-              { number: "50+", label: "Trainers" },
-              { number: "1M+", label: "Exercises Completed" }
-=======
               { number: '10K+', label: 'Active users' },
               { number: '95%', label: 'Satisfaction rate' },
               { number: '50+', label: 'Certified trainers' },
               { number: '1M+', label: 'Workouts completed' }
->>>>>>> 7cbf2362dc83dd119d6ad13f09bc2cdb03a26e2b
             ].map((stat, index) => (
               <div key={index} style={styles.statItem}>
                 <div style={styles.statNumber}>{stat.number}</div>

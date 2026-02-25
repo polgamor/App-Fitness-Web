@@ -10,6 +10,31 @@ type OpenClient = Client & {
   activeMenuItem: string;
 };
 
+const PAGE_STYLES: {
+  pageContainer: CSSProperties;
+  mainContainer: CSSProperties;
+  contentArea: CSSProperties;
+} = {
+  pageContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+    backgroundColor: '#DAD7CD'
+  },
+  mainContainer: {
+    display: 'flex',
+    flex: 1,
+    overflow: 'hidden'
+  },
+  contentArea: {
+    flex: 1,
+    overflow: 'auto',
+    backgroundColor: '#DAD7CD'
+  }
+};
+
+const STATE_KEY = 'workPageState';
+
 export default function WorkPage() {
   const { user } = useAuth();
   const [openClients, setOpenClients] = useState<OpenClient[]>([]);
@@ -17,69 +42,49 @@ export default function WorkPage() {
   const [showClientsPanel, setShowClientsPanel] = useState(true);
 
   useEffect(() => {
-    const savedState = localStorage.getItem('workPageState');
-    if (savedState) {
-      const parsed = JSON.parse(savedState);
-      setOpenClients(parsed.openClients || []);
-      setActiveClientId(parsed.activeClientId || null);
-      setShowClientsPanel(parsed.showClientsPanel !== false);
+    try {
+      const saved = localStorage.getItem(STATE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        setOpenClients(parsed.openClients || []);
+        setActiveClientId(parsed.activeClientId || null);
+        setShowClientsPanel(parsed.showClientsPanel !== false);
+      }
+    } catch {
+      localStorage.removeItem(STATE_KEY);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('workPageState', JSON.stringify({
-      openClients,
-      activeClientId,
-      showClientsPanel
-    }));
+    try {
+      localStorage.setItem(STATE_KEY, JSON.stringify({
+        openClients,
+        activeClientId,
+        showClientsPanel
+      }));
+    } catch {
+      // localStorage not available or quota exceeded — ignore
+    }
   }, [openClients, activeClientId, showClientsPanel]);
 
-  const styles: {
-    pageContainer: CSSProperties;
-    mainContainer: CSSProperties;
-    contentArea: CSSProperties;
-  } = {
-    pageContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100vh',
-      backgroundColor: '#DAD7CD'
-    },
-    mainContainer: {
-      display: 'flex',
-      flex: 1,
-      overflow: 'hidden',
-      marginTop: '0px'
-    },
-    contentArea: {
-      flex: 1,
-      overflow: 'auto',
-      backgroundColor: '#DAD7CD'
-    }
-  };
-
   const handleClientClick = (client: Client) => {
-    const existing = openClients.find(c => c.id === client.id);
-    if (existing) {
-      setActiveClientId(client.id);
-      setShowClientsPanel(false);
-      return;
-    }
-
-    const newClient: OpenClient = { ...client, activeMenuItem: 'info' };
-    setOpenClients([...openClients, newClient]);
+    setOpenClients(prev => {
+      if (prev.find(c => c.id === client.id)) return prev;
+      return [...prev, { ...client, activeMenuItem: 'info' }];
+    });
     setActiveClientId(client.id);
     setShowClientsPanel(false);
   };
 
   const handleCloseTab = (clientId: string) => {
-    const remaining = openClients.filter(c => c.id !== clientId);
-    setOpenClients(remaining);
-
-    if (activeClientId === clientId) {
-      setActiveClientId(remaining.length > 0 ? remaining[0].id : null);
-      if (remaining.length === 0) setShowClientsPanel(true);
-    }
+    setOpenClients(prev => {
+      const remaining = prev.filter(c => c.id !== clientId);
+      if (activeClientId === clientId) {
+        setActiveClientId(remaining.length > 0 ? remaining[0].id : null);
+        if (remaining.length === 0) setShowClientsPanel(true);
+      }
+      return remaining;
+    });
   };
 
   const handleTabClick = (clientId: string) => {
@@ -97,7 +102,7 @@ export default function WorkPage() {
   if (!user) return null;
 
   return (
-    <div style={styles.pageContainer}>
+    <div style={PAGE_STYLES.pageContainer}>
       <WorkNavbar />
 
       <ClientTabs
@@ -108,8 +113,8 @@ export default function WorkPage() {
         onShowClientList={handleOpenClientsPanel}
       />
 
-      <div style={styles.mainContainer}>
-        <main style={styles.contentArea}>
+      <div style={PAGE_STYLES.mainContainer}>
+        <main style={PAGE_STYLES.contentArea}>
           {showClientsPanel ? (
             <ClientListPage onClientClick={handleClientClick} />
           ) : activeClient ? (

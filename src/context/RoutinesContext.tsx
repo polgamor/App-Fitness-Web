@@ -1,10 +1,10 @@
 import { createContext, useContext, ReactNode, useState } from 'react';
 import {
-  doc, getDoc, setDoc, updateDoc, deleteDoc,
+  doc, setDoc, updateDoc, deleteDoc,
   collection, query, where, getDocs,
   Timestamp, deleteField
 } from 'firebase/firestore';
-import { db, auth } from '../firebase';
+import { db, auth } from '../config/firebase.config';
 import type { ExerciseData, RoutineDay, Routine } from '../core/types/routine.types';
 
 export type { ExerciseData, RoutineDay, Routine };
@@ -387,13 +387,7 @@ export function RoutinesProvider({ children }: { children: ReactNode }) {
   const deleteRoutine = async (routineId: string): Promise<void> => {
     setLoading(true);
     try {
-      const routineRef = doc(db, 'rutinas', routineId);
-      const docSnap = await getDoc(routineRef);
-      if (!docSnap.exists()) {
-        throw new Error('Routine not found or already deleted');
-      }
-
-      await deleteDoc(routineRef);
+      await deleteDoc(doc(db, 'rutinas', routineId));
       setRoutines(prev => {
         const updated = { ...prev };
         delete updated[routineId];
